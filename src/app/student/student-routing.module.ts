@@ -9,6 +9,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AddExaminerComponent } from "./add-examiner/add-examiner.component";
 import { ExaminerBatchComponent } from "./examiner-batch/examiner-batch.component";
+import { CheckPerformanceComponent } from "./check-performance/check-performance.component";
 
 const routes: Routes = [
   { path: "student/login", component: StudentLoginComponent },
@@ -43,6 +44,10 @@ const routes: Routes = [
       {
         path: "performance",
         component: StudentPerformanceComponent
+      },
+      {
+        path: "performance/:batchId/:examname",
+        component: CheckPerformanceComponent
       }
     ]
   }

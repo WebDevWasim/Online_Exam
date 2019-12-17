@@ -346,23 +346,23 @@ studentApp.put("/addResult", (req, res) => {
     });
 });
 
-// TODO: Get Batch wise Exams
-// studentApp.get("/getPerformance/:studentId", (req, res) => {
-//   Student.findOne(
-//     {
-//       username: req.param.studentId
-//     },
-//     { performance: 1, _id: 0 }
-//   )
-//     .then(studentObj => {
-//       res.json({
-//         performance: studentObj["performance"]
-//       });
-//     })
-//     .catch(err => {
-//       console.log(`error in getting performance ${err}`);
-//     });
-// });
+// TODO: Get All Performance
+studentApp.get("/getPerformance/:studentId", (req, res) => {
+  Student.findOne(
+    {
+      username: req.param.studentId
+    },
+    { performance: 1, _id: 0 }
+  )
+    .then(studentObj => {
+      res.json({
+        performance: studentObj["performance"]
+      });
+    })
+    .catch(err => {
+      console.log(`error in getting performance ${err}`);
+    });
+});
 
 // export studentApp
 module.exports = studentApp;
