@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <nav class="nav flex-column">
+        <a
+          class="nav-link active btn btn-primary mt-3"
+          routerLink="search-examiner"
+          routerLinkActive="active"
+          >Join Examiner</a
+        >
+        <div *ngFor="let examinerObj of examinerList">
+          <a
+            *ngIf="examinerObj['batch'].length > 0"
+            class="nav-link btn btn-success mt-3"
+            [routerLink]="['examiner-batch', examinerObj.examinerId]"
+            routerLinkActive="active"
+            >{{ examinerObj["examinerId"] | uppercase }}</a
+          >
+        </div>
+      </nav>
+    </div>
+    <div class="col-sm-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

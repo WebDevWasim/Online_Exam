@@ -1,0 +1,38 @@
+<div class="container">
+  <p class="text-center text-primary display-4">{{ batchId | uppercase }}</p>
+
+  <div *ngIf="studentsData.length; then thenBlock; else elseBlock"></div>
+
+  <ng-template #thenBlock>
+    <table class="table table-striped table-bordered text-center mt-3">
+      <thead>
+        <th>NAME</th>
+        <th>STUDENT ID</th>
+        <th>MOBILE</th>
+        <th>INSTITUTE</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of studentsData">
+          <td>{{ student.name }}</td>
+          <td>{{ student.username }}</td>
+          <td>{{ student.mobile }}</td>
+          <td>{{ student.instituteName }}</td>
+
+          <td>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="removeStudent(student.username)"
+            >
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+  <ng-template #elseBlock>
+    <h2 class="text-center text-danger mt-3">
+      No Student Joined in this Batch
+    </h2>
+  </ng-template>
+</div>

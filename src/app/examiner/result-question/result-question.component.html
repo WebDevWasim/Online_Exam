@@ -1,0 +1,47 @@
+<ul class="list-group mt-3 mb-3" *ngFor="let question of questions">
+  <li class="list-group-item">
+    <h5>{{ questions.indexOf(question) + 1 }}) {{ question["qname"] }}</h5>
+    <div class="row">
+      <div
+        class="col-6"
+        [ngClass]="{
+          'text-success': question['ans'] === 'a',
+          'font-weight-bold': question['ans'] === 'a',
+          'text-danger': question['ans'] !== 'a'
+        }"
+      >
+        a) {{ question["a"] }}
+      </div>
+      <div
+        class="col-6"
+        [ngClass]="{
+          'text-success': question['ans'] === 'b',
+          'font-weight-bold': question['ans'] === 'b',
+          'text-danger': question['ans'] !== 'b'
+        }"
+      >
+        b) {{ question["b"] }}
+      </div>
+      <div
+        class="col-6"
+        [ngClass]="{
+          'text-success': question['ans'] === 'c',
+          'font-weight-bold': question['ans'] === 'c',
+          'text-danger': question['ans'] !== 'c'
+        }"
+      >
+        c) {{ question["c"] }}
+      </div>
+      <div
+        class="col-6"
+        [ngClass]="{
+          'text-success': question['ans'] === 'd',
+          'font-weight-bold': question['ans'] === 'd',
+          'text-danger': question['ans'] !== 'd'
+        }"
+      >
+        d) {{ question["d"] }}
+      </div>
+    </div>
+  </li>
+</ul>

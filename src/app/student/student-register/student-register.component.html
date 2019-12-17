@@ -1,0 +1,204 @@
+<div class="container">
+  <div class="row">
+    <!-- =========This is Form=========== -->
+    <form
+      class="jumbotron mt-4 p-4 col-md-6 offset-md-3 bg-dark text-light"
+      #signupForm="ngForm"
+      (ngSubmit)="submitForm(signupForm)"
+    >
+      <!-- TODO: NAME  type="text"  -->
+      <div class="form-group">
+        <label for="fn">NAME</label>
+        <input
+          class="form-control"
+          [class.is-invalid]="name.invalid && (name.touched || name.dirty)"
+          [class.is-valid]="name.valid && (name.touched || name.dirty)"
+          type="text"
+          id="fn"
+          name="name"
+          #name="ngModel"
+          ngModel
+          required
+        />
+
+        <!-- FIXME:  Name Validation -->
+        <div *ngIf="name.invalid && (name.touched || name.dirty)">
+          <small class="text-warning">Name is Required</small>
+        </div>
+      </div>
+
+      <!-- TODO: Username  type="text"  -->
+      <div class="form-group">
+        <label for="username">USERNAME</label>
+        <input
+          class="form-control"
+          [class.is-invalid]="
+            username.invalid && (username.touched || username.dirty)
+          "
+          [class.is-valid]="
+            username.valid && (username.touched || username.dirty)
+          "
+          type="text"
+          id="username"
+          name="username"
+          #username="ngModel"
+          ngModel
+          required
+        />
+
+        <!-- FIXME:  Username Validation -->
+        <div *ngIf="username.invalid && (username.touched || username.dirty)">
+          <small class="text-warning">Username is Required</small>
+        </div>
+      </div>
+
+      <!-- TODO: MOBILE NO type="number"-->
+      <div class="form-group">
+        <label for="ph">MOBILE NO</label>
+        <input
+          class="form-control"
+          type="number"
+          pattern="^[0-9]{10}$"
+          id="ph"
+          name="mobile"
+          #mobile="ngModel"
+          autocomplete="off"
+          [class.is-invalid]="
+            mobile.invalid && (mobile.dirty || mobile.touched)
+          "
+          [class.is-valid]="mobile.valid && (mobile.dirty || mobile.touched)"
+          ngModel
+          required
+        />
+
+        <!-- FIXME: Mobile No, Pattern Validation -->
+        <div *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)">
+          <small class="text-warning" *ngIf="mobile.errors?.required">
+            Valid Mobile Number is Required</small
+          >
+          <small class="text-warning" *ngIf="mobile.errors?.pattern">
+            Mobile Number Must be 10 digits</small
+          >
+        </div>
+      </div>
+
+      <!-- TODO: institute Name  type="text"  -->
+      <div class="form-group">
+        <label for="instituteName">INSTITUTE NAME</label>
+        <input
+          class="form-control"
+          [class.is-invalid]="
+            instituteName.invalid &&
+            (instituteName.touched || instituteName.dirty)
+          "
+          [class.is-valid]="
+            instituteName.valid &&
+            (instituteName.touched || instituteName.dirty)
+          "
+          type="text"
+          id="instituteName"
+          name="instituteName"
+          #instituteName="ngModel"
+          ngModel
+          required
+        />
+
+        <!-- FIXME:  institute Name Validation -->
+        <div
+          *ngIf="
+            instituteName.invalid &&
+            (instituteName.touched || instituteName.dirty)
+          "
+        >
+          <small class="text-warning">Institute Name is Required</small>
+        </div>
+      </div>
+
+      <!-- TODO: PASSWORD-->
+      <div class="form-group">
+        <label for="password">PASSWORD</label>
+        <input
+          class="form-control"
+          type="password"
+          pattern="^[0-9]{4}[a-zA-Z]{4}.*"
+          id="password"
+          name="password"
+          #password="ngModel"
+          [class.is-invalid]="
+            password.invalid && (password.dirty || password.touched)
+          "
+          [class.is-valid]="
+            password.valid && (password.dirty || password.touched)
+          "
+          ngModel
+          required
+        />
+
+        <!-- FIXME: PASSWORD Validation -->
+        <div
+          class="text-warning"
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+        >
+          <small *ngIf="password.errors?.required">
+            Password is Required
+          </small>
+
+          <small *ngIf="password.errors?.pattern">
+            Password Must be 8 characters and Match valid pattern Ex: 1234AbcD
+          </small>
+        </div>
+      </div>
+
+      <!-- TODO: CONFIRM PASSWORD-->
+      <div class="form-group">
+        <label for="cnfPassword">CONFIRM PASSWORD</label>
+        <input
+          class="form-control"
+          type="password"
+          id="cnfPassword"
+          name="cnfPassword"
+          [class.is-invalid]="
+            cnfPassword.invalid && (cnfPassword.dirty || cnfPassword.touched)
+          "
+          [class.is-valid]="
+            cnfPassword.valid && (cnfPassword.dirty || cnfPassword.touched)
+          "
+          #cnfPassword="ngModel"
+          pattern="{{ password.value }}"
+          ngModel
+          required
+        />
+
+        <!-- FIXME: CONFIRM PASSWORD Validation -->
+        <div
+          class="text-warning"
+          *ngIf="
+            cnfPassword.invalid && (cnfPassword.dirty || cnfPassword.touched)
+          "
+        >
+          <small
+            *ngIf="cnfPassword.errors?.pattern || cnfPassword.errors?.required"
+          >
+            Confirm Password must match with Password
+          </small>
+        </div>
+      </div>
+
+      <!--  TODO: Submit Button -->
+      <button
+        type="submit"
+        [disabled]="signupForm.invalid"
+        class="btn form-control"
+        [ngClass]="{
+          'btn-success': signupForm.valid,
+          'btn-danger': signupForm.invalid
+        }"
+      >
+        RESISTER
+      </button>
+    </form>
+    <button class="btn btn-info form-control" (click)="LogIn()">
+      Log In
+    </button>
+  </div>
+</div>

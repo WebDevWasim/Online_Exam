@@ -1,0 +1,98 @@
+<h3 class=" text-center text-dark">{{ batchId | uppercase }}</h3>
+
+<div class="row card-group text-center mb-3" *ngIf="allExams.length">
+  <div class="col-md-4" *ngFor="let exam of allExams">
+    <div class="card mt-3">
+      <div class="card-body">
+        <h4>
+          {{ exam.examname | uppercase }}
+        </h4>
+        <p class="m-0 p-0 mt-1">Duration : {{ exam["duration"] }} min</p>
+        <p class="m-0 p-0 mb-2">Marks : {{ exam["questions"]?.length }}</p>
+        <button
+          class="btn btn-success d-block text-light w-75 mx-auto btn-sm m-1 mb-2"
+          data-toggle="modal"
+          data-target="#myModal"
+          (click)="startExam(exam.examname)"
+        >
+          Start Exam
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-danger mt-5 text-center" *ngIf="!allExams.length">
+  No Pending Exam
+</h3>
+<!-- Instraction Modal -->
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center text-danger">
+        <h4 class="modal-title ">INSTRUCTIONS</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <ol>
+          <li>
+            <b>
+              The student may not use his or her textbook, course notes, or
+              receive help from a proctor or any other outside source.
+            </b>
+          </li>
+          <li>
+            <b
+              >Students must complete the
+              <i
+                ><u class="text-primary"
+                  >{{ currentExam["questions"]?.length }} MCQ questions</u
+                ></i
+              >
+              within the
+              <i
+                ><u class="text-primary"
+                  >{{ currentExam["duration"] }} minutes time</u
+                ></i
+              >
+              frame allotted for the exam.
+            </b>
+          </li>
+          <li>
+            <b> Students must not stop the session and then return to it.</b>
+          </li>
+        </ol>
+        <p>
+          <b
+            ><i>
+              Note:
+              <span class="text-danger"
+                >Last instraction is especially important beacuse the system
+                will "time-out" and not allow you to re-enter the exam.</span
+              >
+            </i></b
+          >
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="beginExam(currentExam['examname'])"
+          data-dismiss="modal"
+        >
+          I am Ready
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

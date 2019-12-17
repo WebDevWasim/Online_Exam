@@ -1,0 +1,32 @@
+<div class="container mt-3">
+  <div class="row card-group text-center mb-3">
+    <div class="col-md-4" *ngFor="let performance of performanceArray">
+      <div class="card mt-3">
+        <p class=" text-center bg-light p-1">
+          <span *ngFor="let bat of performance['batch']">
+            <span class="badge mr-2 badge-primary">{{ bat }} </span>
+          </span>
+        </p>
+        <div class="card-body pt-0">
+          <h4>
+            {{ performance.examname | uppercase }}
+          </h4>
+          <p class="m-0 p-0 mt-1">Duration : {{ performance.duration }} min</p>
+          <p class="m-0 p-0 mb-2">Marks : {{ performance.questions.length }}</p>
+          <button
+            class="btn btn-success d-block form-control mx-auto btn-sm m-1 mb-2"
+            (click)="checkResult(performance.examname)"
+          >
+            Result
+          </button>
+          <button
+            class="btn btn-danger form-control btn-sm m-1 w-50 mx-auto"
+            (click)="deleteExam(performance.examname, performance['batch'])"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row card-group text-center">
+    <div class="col-md-4" *ngFor="let batch of batchArray">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h4 class="card-title">{{ batch.batchName | uppercase }}</h4>
+          <p class="card-text">Batch ID : {{ batch.batchId }}</p>
+          <a
+            routerLink="#"
+            class="btn btn-primary d-block mx-auto btn-sm"
+            (click)="enterBatch(batch.batchId)"
+          >
+            Enter Batch
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

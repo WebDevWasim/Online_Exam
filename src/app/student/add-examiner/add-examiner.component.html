@@ -1,0 +1,51 @@
+<div class="container row">
+  <div class="col-md-6 mt-5">
+    <label for="examiner" class="mt-2">Search Examiner</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Enter Valid Examiner ID"
+      id="examiner"
+      (keyup.enter)="searchExaminer(ref.value)"
+      ngModel
+      #ref
+      required
+    />
+    <button
+      class="btn btn-success w-100 mt-3"
+      (click)="searchExaminer(ref.value)"
+    >
+      SEARCH
+    </button>
+  </div>
+
+  <div class="col-md-6 mt-5" *ngIf="show">
+    <div class="card text-center">
+      <div class="card-header">
+        {{ examinerObj.username }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ examinerObj.name }}</h5>
+        <p class="card-text">
+          {{ examinerObj.instituteName }}
+        </p>
+        <input
+          type="text"
+          ngModel
+          class="form-control w-75 d-block mx-auto"
+          #batchId="ngModel"
+          name="batchId"
+          placeholder="Batch ID"
+          required
+        />
+        <button
+          [disabled]="batchId.invalid"
+          class="btn btn-primary w-50 mt-3 btn-sm"
+          (click)="sendExaminerRequest(batchId.value)"
+        >
+          ADD ME SIR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+{
+  "_id": { "$oid": "5def27e66492f72320511386" },
+  "request": [],
+  "studentList": [
+    { "batchName": "batch 1", "batchId": "e1b1", "student": ["student1"] },
+    { "batchName": "batch 2", "batchId": "e1b2", "student": [] },
+    { "batchName": "batch 3", "batchId": "e1b3", "student": [] }
+  ],
+  "examList": [
+    {
+      "examname": "node",
+      "duration": { "$numberInt": "20" },
+      "batch": ["e1b1", "e1b3"],
+      "public": false,
+      "questions": [
+        {
+          "qname": "wasim",
+          "a": "a",
+          "b": "b",
+          "c": "c",
+          "d": "d",
+          "ans": "a",
+          "qid": { "$numberDouble": "236.0968282337211" }
+        },
+        {
+          "qname": "anup",
+          "a": "sf",
+          "b": "fs",
+          "c": "sfdfd",
+          "d": "fdf",
+          "ans": "b",
+          "qid": { "$numberDouble": "499.10553110568196" }
+        }
+      ]
+    }
+  ],
+  "name": "EXAMINER1",
+  "username": "examiner1",
+  "mobile": { "$numberDouble": "7407504418" },
+  "instituteName": "MIT",
+  "password": "$2b$08$OH6WtAFqPt1jRIP1jXmSeuXoz6F1bnzDUpOYeZ3CkP2X8exGdE99u",
+  "__v": { "$numberInt": "0" }
+}

@@ -1,0 +1,46 @@
+<div *ngIf="studentsData.length; then thenBlock; else elseBlock"></div>
+
+<ng-template #thenBlock>
+  <table class="table table-striped table-bordered text-center mt-3">
+    <thead>
+      <th>BATCH</th>
+      <th>NAME</th>
+      <th>STUDENT ID</th>
+      <th>INSTITUTE</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of studentsData">
+        <td>
+          <p class="badge badge-primary p-2 m-0">
+            {{ student.batchId | uppercase }}
+          </p>
+        </td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.username }}</td>
+        <td>{{ student.instituteName }}</td>
+
+        <td>
+          <button
+            class="btn btn-success btn-sm m-0"
+            (click)="approveStudent(student.username, student.batchId)"
+          >
+            Aprove
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-danger btn-sm m-0"
+            (click)="rejectStudent(student.username, student.batchId)"
+          >
+            Reject
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+<ng-template #elseBlock>
+  <h2 class="text-center text-danger mt-3">
+    No Pending Aproval Request
+  </h2>
+</ng-template>

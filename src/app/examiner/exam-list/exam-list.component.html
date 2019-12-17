@@ -1,0 +1,293 @@
+<!-- <router-outlet></router-outlet> -->
+<div class="container mt-3">
+  <button
+    type="button"
+    class="btn btn-success d-block "
+    data-toggle="modal"
+    data-target="#exampleModal"
+  >
+    + New Exam
+  </button>
+
+  <div class="row card-group text-center mb-3">
+    <div class="col-md-4" *ngFor="let exam of allExam">
+      <div class="card mt-3">
+        <p class=" text-center bg-light p-1">
+          <span *ngFor="let bat of exam['batch']">
+            <span class="badge mr-2 badge-primary">{{ bat }} </span>
+          </span>
+        </p>
+        <div class="card-body pt-0">
+          <h4>
+            <a routerLink="open-exam" (click)="openExam(exam.examname)">{{
+              exam.examname | uppercase
+            }}</a>
+          </h4>
+          <p class="m-0 p-0 mt-1">Duration : {{ exam.duration }} min</p>
+          <p class="m-0 p-0 mb-2">Questions : {{ exam.questions.length }}</p>
+          <button
+            class="btn btn-success d-block form-control mx-auto btn-sm m-1 mb-2"
+            (click)="publishExam(exam.examname)"
+            [disabled]="!exam.questions.length || !exam.batch.length"
+          >
+            PUBLISH
+          </button>
+          <div class="row">
+            <div class="col-sm-6">
+              <button
+                class="btn btn-primary form-control btn-sm  m-1"
+                data-toggle="modal"
+                (click)="editExam(exam.examname)"
+                data-target="#example"
+              >
+                Edit
+              </button>
+            </div>
+            <div class="col-sm-6">
+              <button
+                class="btn btn-danger form-control btn-sm m-1"
+                (click)="deleteExam(exam.examname)"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Open New EXAM Model ===================== -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">New Exam</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="jumbotron bg-light text-dark m-0 p-3" #myForm="ngForm">
+          <!-- TODO: EXAM NAME   type="text"  -->
+          <div class="form-group">
+            <label for="fn1">EXAM NAME</label>
+            <input
+              class="form-control"
+              [class.is-invalid]="
+                examname.invalid && (examname.touched || examname.dirty)
+              "
+              [class.is-valid]="
+                examname.valid && (examname.touched || examname.dirty)
+              "
+              type="text"
+              id="fn1"
+              name="examname"
+              #examname="ngModel"
+              placeholder="Enter Exam name"
+              ngModel
+              required
+            />
+
+            <!-- FIXME:  Name Validation -->
+            <div
+              *ngIf="examname.invalid && (examname.touched || examname.dirty)"
+            >
+              <small class="text-danger">Exam Name is Required</small>
+            </div>
+          </div>
+          <!-- TODO: BATCH ID   type="text"  -->
+          <div class="form-group">
+            <label for="fn">EXAM DURATION (min)</label>
+            <input
+              class="form-control"
+              [class.is-invalid]="
+                duration.invalid && (duration.touched || duration.dirty)
+              "
+              [class.is-valid]="
+                duration.valid && (duration.touched || duration.dirty)
+              "
+              type="number"
+              placeholder="Time in minutes"
+              id="fn"
+              name="duration"
+              #duration="ngModel"
+              ngModel
+              required
+            />
+
+            <!-- FIXME:  Name Validation -->
+            <div
+              *ngIf="duration.invalid && (duration.touched || duration.dirty)"
+            >
+              <small class="text-danger">Exam Duration is Required</small>
+            </div>
+          </div>
+
+          <!-- TODO: EXAM FOR type="checkbox" -->
+          <div class="form-group">
+            <label class="d-block">EXAM FOR</label>
+            <div ngModelGroup="batch">
+              <div class="form-check-inline" *ngFor="let batch of allBatch">
+                <label class="form-check-label">
+                  {{ batch | uppercase }}
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    name="{{ batch }}"
+                    ngModel
+                  />
+                </label>
+              </div>
+            </div>
+            <small class="text-danger"> Please Select Atleast One Batch</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          [disabled]="myForm.invalid"
+          (click)="addExam(myForm.value)"
+        >
+          Add Exam
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= EDIT EXAM ===================== -->
+<div
+  class="modal fade"
+  id="example"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleLabel">Edit Exam</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="jumbotron bg-light text-dark m-0 p-3" #myForm1="ngForm">
+          <!-- TODO: EXAM NAME   type="text"  -->
+          <div class="form-group">
+            <label for="fn1">EXAM NAME</label>
+            <input
+              class="form-control"
+              [class.is-invalid]="
+                examname.invalid && (examname.touched || examname.dirty)
+              "
+              [class.is-valid]="
+                examname.valid && (examname.touched || examname.dirty)
+              "
+              type="text"
+              id="fn1"
+              name="examname"
+              #examname="ngModel"
+              [ngModel]="currentExam['examname']"
+              required
+              disabled
+            />
+
+            <!-- FIXME:  Name Validation -->
+            <div
+              *ngIf="examname.invalid && (examname.touched || examname.dirty)"
+            >
+              <small class="text-danger">Exam Name is Required</small>
+            </div>
+          </div>
+          <!-- TODO: BATCH ID   type="text"  -->
+          <div class="form-group">
+            <label for="fn">EXAM DURATION (min)</label>
+            <input
+              class="form-control"
+              [class.is-invalid]="
+                duration.invalid && (duration.touched || duration.dirty)
+              "
+              [class.is-valid]="
+                duration.valid && (duration.touched || duration.dirty)
+              "
+              type="number"
+              placeholder="Time in minutes"
+              id="fn"
+              name="duration"
+              #duration="ngModel"
+              [ngModel]="currentExam['duration']"
+              required
+            />
+
+            <!-- FIXME:  Duration Validation -->
+            <div
+              *ngIf="duration.invalid && (duration.touched || duration.dirty)"
+            >
+              <small class="text-danger">Exam Duration is Required</small>
+            </div>
+          </div>
+
+          <!-- TODO: EXAM FOR type="checkbox" -->
+          <div class="form-group">
+            <label class="d-block">EXAM FOR</label>
+            <div ngModelGroup="batch">
+              <div class="form-check-inline" *ngFor="let batch of allBatch">
+                <label class="form-check-label" class="checkbox">
+                  {{ batch | uppercase }}
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    name="{{ batch }}"
+                    [ngModel]=""
+                  />
+                </label>
+              </div>
+            </div>
+            <small class="text-danger"> Assign a batch with this Exam </small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          [disabled]="myForm1.invalid"
+          (click)="updateExam(myForm1.value, currentExam['examname'])"
+        >
+          UPDATE
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

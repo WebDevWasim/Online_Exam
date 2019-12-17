@@ -1,0 +1,76 @@
+<form #myForm="ngForm">
+  <ul class="list-group mt-3 mb-3" *ngFor="let question of exam.questions">
+    <li class="list-group-item">
+      <h5>
+        {{ exam.questions.indexOf(question) + 1 }}) {{ question["qname"] }}
+      </h5>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="{{ question['qname'] }}"
+                ngModel
+                value="a"
+              />
+              {{ question["a"] }}
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="{{ question['qname'] }}"
+                ngModel
+                value="b"
+              />
+              {{ question["b"] }}
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="{{ question['qname'] }}"
+                ngModel
+                value="c"
+              />
+              {{ question["c"] }}
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="{{ question['qname'] }}"
+                ngModel
+                value="d"
+              />
+              {{ question["d"] }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <button
+    type="submit"
+    class="btn btn-success w-25 mx-auto d-block"
+    (click)="submitAnswers(myForm.value)"
+  >
+    Submit Answers
+  </button>
+</form>
+
+<!-- ========================================== -->

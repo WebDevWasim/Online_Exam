@@ -1,0 +1,22 @@
+<div class="container mt-3">
+  <button (click)="logOut()" class="btn btn-danger float-right">Logout</button>
+
+  <h3 class="p-0">EXAMINER</h3>
+
+  <ul class="nav nav-tabs justify-content-center mt-1 pt-0">
+    <li class="nav-item">
+      <a class="nav-item nav-link" routerLink="exam" routerLinkActive="active"
+        >EXAM</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-item nav-link"
+        routerLink="student"
+        routerLinkActive="active"
+        >STUDENT</a
+      >
+    </li>
+  </ul>
+  <router-outlet></router-outlet>
+</div>

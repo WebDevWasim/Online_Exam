@@ -1,0 +1,497 @@
+<div class="container">
+  <h3 class="text-center text-primary">{{ examname | uppercase }}</h3>
+
+  <button
+    type="button"
+    class="btn btn-success d-block btn-sm"
+    data-toggle="modal"
+    data-target="#exampleModal"
+  >
+    + Add Question
+  </button>
+
+  <div *ngIf="questions.length; then thenBlock; else elseBlock"></div>
+
+  <ng-template #thenBlock>
+    <ul class="list-group mt-3 mb-3" *ngFor="let question of questions">
+      <li class="list-group-item">
+        <h5>{{ questions.indexOf(question) + 1 }}) {{ question["qname"] }}</h5>
+        <div class="row">
+          <div
+            class="col-6"
+            [ngClass]="{
+              'text-success': question['ans'] === 'a',
+              'font-weight-bold': question['ans'] === 'a',
+              'text-danger': question['ans'] !== 'a'
+            }"
+          >
+            a) {{ question["a"] }}
+          </div>
+          <div
+            class="col-6"
+            [ngClass]="{
+              'text-success': question['ans'] === 'b',
+              'font-weight-bold': question['ans'] === 'b',
+              'text-danger': question['ans'] !== 'b'
+            }"
+          >
+            b) {{ question["b"] }}
+          </div>
+          <div
+            class="col-6"
+            [ngClass]="{
+              'text-success': question['ans'] === 'c',
+              'font-weight-bold': question['ans'] === 'c',
+              'text-danger': question['ans'] !== 'c'
+            }"
+          >
+            c) {{ question["c"] }}
+          </div>
+          <div
+            class="col-6"
+            [ngClass]="{
+              'text-success': question['ans'] === 'd',
+              'font-weight-bold': question['ans'] === 'd',
+              'text-danger': question['ans'] !== 'd'
+            }"
+          >
+            d) {{ question["d"] }}
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-2 mb-2">
+            <button
+              class="btn btn-primary form-control btn-sm"
+              data-toggle="modal"
+              (click)="editQuestion(question.qid)"
+              data-target="#example"
+            >
+              Edit
+            </button>
+          </div>
+          <div class="col-sm-2 offset-sm-8 mb-2">
+            <button
+              class="btn btn-danger form-control btn-sm"
+              (click)="deleteQuestion(question.qid)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </ng-template>
+  <ng-template #elseBlock>
+    <h2 class="text-center text-danger mt-3">
+      Please Add Question to Publish
+    </h2>
+  </ng-template>
+</div>
+
+<!-- Add Question Model -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button
+          type="button"
+          class="close mr-2 mt-2"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <form class="jumbotron bg-light text-dark m-0 p-3" #myForm="ngForm">
+          <!-- TODO: EXAM NAME   type="text"  -->
+          <div class="form-group">
+            <label for="fnn">Question Name</label>
+
+            <textarea
+              rows="2"
+              class="form-control"
+              [class.is-invalid]="
+                qnam.invalid && (qnam.touched || qnam.dirty)
+              "
+              [class.is-valid]="qnam.valid && (qnam.touched || qnam.dirty)"
+              id="fnn"
+              name="qname"
+              #qnam="ngModel"
+              placeholder="Enter Question name"
+              ngModel
+              required
+            ></textarea>
+            <!--  Validation -->
+            <div *ngIf="qnam.invalid && (qnam.touched || qnam.dirty)">
+              <small class="text-danger">Question Name is Required</small>
+            </div>
+          </div>
+
+          <!--  OPTIONS  -->
+          <div class="form-group">
+            <label>OPTIONS</label>
+            <div class="form-row">
+              <!-- OPTION A -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="aa.invalid && (aa.touched || aa.dirty)"
+                  [class.is-valid]="aa.valid && (aa.touched || aa.dirty)"
+                  name="a"
+                  #aa="ngModel"
+                  ngModel
+                  required
+                  placeholder="Option A"
+                />
+                <!--  Validation -->
+                <div *ngIf="aa.invalid && (aa.touched || aa.dirty)">
+                  <small class="text-danger">Option A is Required</small>
+                </div>
+              </div>
+              <!-- OPTION B -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="bb.invalid && (bb.touched || bb.dirty)"
+                  [class.is-valid]="bb.valid && (bb.touched || bb.dirty)"
+                  name="b"
+                  #bb="ngModel"
+                  ngModel
+                  required
+                  placeholder="Option B"
+                />
+                <!--  Validation -->
+                <div *ngIf="bb.invalid && (bb.touched || bb.dirty)">
+                  <small class="text-danger">Option B is Required</small>
+                </div>
+              </div>
+              <!-- OPTION C -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="cc.invalid && (cc.touched || cc.dirty)"
+                  [class.is-valid]="cc.valid && (cc.touched || cc.dirty)"
+                  name="c"
+                  #cc="ngModel"
+                  ngModel
+                  required
+                  placeholder="Option C"
+                />
+                <!--  Validation -->
+                <div *ngIf="cc.invalid && (cc.touched || cc.dirty)">
+                  <small class="text-danger">Option C is Required</small>
+                </div>
+              </div>
+              <!-- OPTION D -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="dd.invalid && (dd.touched || dd.dirty)"
+                  [class.is-valid]="dd.valid && (dd.touched || dd.dirty)"
+                  name="d"
+                  #dd="ngModel"
+                  ngModel
+                  required
+                  placeholder="Option D"
+                />
+                <!--  Validation -->
+                <div *ngIf="dd.invalid && (dd.touched || dd.dirty)">
+                  <small class="text-danger">Option D is Required</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--  Option radio -->
+          <label class="dd-block">ANSWER</label>
+          <div
+            class="form-group  "
+            [class.text-success]="ans.valid && ans.dirty"
+          >
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                A
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  ngModel
+                  #ans="ngModel"
+                  value="a"
+                  required
+                />
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                B
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  ngModel
+                  #answer="ngModel"
+                  value="b"
+                  required
+                />
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                C
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  ngModel
+                  #answer="ngModel"
+                  value="c"
+                  required
+                />
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                D
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  ngModel
+                  #answer="ngModel"
+                  value="d"
+                  required
+                />
+              </label>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-success w-50 mx-auto d-block"
+            data-dismiss="modal"
+            [disabled]="myForm.invalid"
+            (click)="addQuestion(myForm)"
+          >
+            Add Question
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Question Model -->
+<div
+  class="modal fade"
+  id="example"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button
+          type="button"
+          class="close mr-2 mt-2"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <form class="jumbotron bg-light text-dark m-0 p-3" #myForm1="ngForm">
+          <!-- TODO: EXAM NAME   type="text"  -->
+          <div class="form-group">
+            <label for="fn">Question Name</label>
+
+            <textarea
+              rows="2"
+              class="form-control"
+              [class.is-invalid]="
+                qname.invalid && (qname.touched || qname.dirty)
+              "
+              [class.is-valid]="qname.valid && (qname.touched || qname.dirty)"
+              id="fn"
+              name="qname"
+              #qname="ngModel"
+              placeholder="Enter Question name"
+              [ngModel] = currentQuestion.qname
+              required
+            ></textarea>
+            <!--  Validation -->
+            <div *ngIf="qname.invalid && (qname.touched || qname.dirty)">
+              <small class="text-danger">Question Name is Required</small>
+            </div>
+          </div>
+
+          <!--  OPTIONS  -->
+          <div class="form-group">
+            <label for="fn">OPTIONS</label>
+            <div class="form-row">
+              <!-- OPTION A -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="a.invalid && (a.touched || a.dirty)"
+                  [class.is-valid]="a.valid && (a.touched || a.dirty)"
+                  name="a"
+                  #a="ngModel"
+                  [ngModel] = currentQuestion.a
+                  required
+                  placeholder="Option A"
+                />
+                <!--  Validation -->
+                <div *ngIf="a.invalid && (a.touched || a.dirty)">
+                  <small class="text-danger">Option A is Required</small>
+                </div>
+              </div>
+              <!-- OPTION B -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="b.invalid && (b.touched || b.dirty)"
+                  [class.is-valid]="b.valid && (b.touched || b.dirty)"
+                  name="b"
+                  #b="ngModel"
+                  [ngModel] = currentQuestion.b
+                  required
+                  placeholder="Option B"
+                />
+                <!--  Validation -->
+                <div *ngIf="b.invalid && (b.touched || b.dirty)">
+                  <small class="text-danger">Option B is Required</small>
+                </div>
+              </div>
+              <!-- OPTION C -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="c.invalid && (c.touched || c.dirty)"
+                  [class.is-valid]="c.valid && (c.touched || c.dirty)"
+                  name="c"
+                  #c="ngModel"
+                  [ngModel] = currentQuestion.c
+                  required
+                  placeholder="Option C"
+                />
+                <!--  Validation -->
+                <div *ngIf="c.invalid && (c.touched || c.dirty)">
+                  <small class="text-danger">Option C is Required</small>
+                </div>
+              </div>
+              <!-- OPTION D -->
+              <div class="col-6 pb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [class.is-invalid]="d.invalid && (d.touched || d.dirty)"
+                  [class.is-valid]="d.valid && (d.touched || d.dirty)"
+                  name="d"
+                  #d="ngModel"
+                  [ngModel] = currentQuestion.d
+                  required
+                  placeholder="Option D"
+                />
+                <!--  Validation -->
+                <div *ngIf="d.invalid && (d.touched || d.dirty)">
+                  <small class="text-danger">Option D is Required</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--  Option radio -->
+          <label class="d-block">ANSWER</label>
+          <div
+            class="form-group  "
+            [class.text-success]="ans.valid && ans.dirty"
+          >
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                A
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  [ngModel] = currentQuestion.ans
+                  #ans="ngModel"
+                  value="a"
+                  required
+                />
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                B
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  [ngModel] = currentQuestion.ans
+
+                  #ans="ngModel"
+                  value="b"
+                  required
+                />
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                C
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  [ngModel] = currentQuestion.ans
+
+                  #ans="ngModel"
+                  value="c"
+                  required
+                />
+              </label>
+            </div>
+            <div class="form-check-inline">
+              <label class="form-check-label">
+                D
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ans"
+                  [ngModel] = currentQuestion.ans
+
+                  #ans="ngModel"
+                  value="d"
+                  required
+                />
+              </label>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-success w-50 mx-auto d-block"
+            data-dismiss="modal"
+            [disabled]="myForm1.invalid"
+            (click)="updateQuestion(myForm1.value)"
+          >
+             Update Question
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
