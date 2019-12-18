@@ -1,1 +1,78 @@
-<p>check-performance works!</p>
+<div class="row mt-3">
+  <div class="col-md-4">
+    <div class="jumbotron p-3 bg-success text-light text-center">
+      <div class="jumbotron bg-white p-1 mb-2 text-dark">
+        <h3 class="p-0 m-1">{{ performance.examname | uppercase }}</h3>
+        <h4 class="p-0 m-1">
+          Batch Id : {{ performance.batchId | uppercase }}
+        </h4>
+      </div>
+
+      <p class="p-0 m-1">Total No. of Questions : {{ answers.length }}</p>
+      <p class="p-0 m-1">No. of Questions Attempt : {{ attemptQuestion }}</p>
+      <p class="p-0 m-1">No of Wrong Answers : {{ wrongAns }}</p>
+      <h3 class="mt-2 mb-0 text-white">Final Score : {{ totalScore }}</h3>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="jumbotron bg-light text-dark pt-4 pb-3">
+      <ul class="list-group mb-2" *ngFor="let question of answers">
+        <li class="list-group-item">
+          <h5>
+            {{ answers.indexOf(question) + 1 }})
+            {{ question["qname"] }}
+          </h5>
+          <div class="row">
+            <div
+              class="col-6"
+              [class.font-weight-bold]="question['giverAns'] === 'a'"
+            >
+              a) {{ question["a"] }}
+            </div>
+            <div
+              class="col-6"
+              [class.font-weight-bold]="question['giverAns'] === 'b'"
+            >
+              b) {{ question["b"] }}
+            </div>
+            <div
+              class="col-6"
+              [class.font-weight-bold]="question['giverAns'] === 'c'"
+            >
+              c) {{ question["c"] }}
+            </div>
+            <div
+              class="col-6"
+              [class.font-weight-bold]="question['giverAns'] === 'd'"
+            >
+              d) {{ question["d"] }}
+            </div>
+          </div>
+          <p
+            class="alert alert-success mt-2 mb-0"
+            *ngIf="question['ans'] === question['giverAns']"
+          >
+            <b>CORRECT : </b> Answer is <b>{{ question["ans"] | uppercase }}</b>
+          </p>
+          <p
+            class="alert alert-danger mt-2 mb-0"
+            *ngIf="
+              question['giverAns'] !== '' &&
+              question['ans'] !== question['giverAns']
+            "
+          >
+            <b>WRONG : </b> Correct Answer is
+            <b>{{ question["ans"] | uppercase }}</b>
+          </p>
+          <p
+            class="alert alert-dark mt-2 mb-0"
+            *ngIf="question['giverAns'] === ''"
+          >
+            <b>NOT ATTEMPTED : </b> Correct Answer is
+            <b>{{ question["ans"] | uppercase }}</b>
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

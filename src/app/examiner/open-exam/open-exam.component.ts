@@ -63,7 +63,7 @@ export class OpenExamComponent implements OnInit {
     console.log(questionObj);
 
     this.http
-      .put(`examiner/updateQuestion/${examiner}`, questionObj)
+      .put(`examiner/updateQuestion/${examiner}/${this.examname}`, questionObj)
       .subscribe(res => {
         if (res["message"] == "New Question Updated Successfully") {
           console.log("updated");

@@ -405,7 +405,6 @@ examinerApp.get("/getExaminer/:examinerId", (req, res) => {
     { _id: 0, studentList: 1, examList: 1, performance: 1 }
   )
     .then(examinerObj => {
-    
       let batchArr = [];
       examinerObj["studentList"].forEach(batchObj => {
         batchArr.push(batchObj["batchId"]);
@@ -594,50 +593,74 @@ examinerApp.put("/addQuestion/:examinerId/:examname", (req, res) => {
 });
 
 // TODO: Update the Question Paper FIXME: Pending
-examinerApp.put("/updateQuestion/:username", (req, res) => {
-  Examiner.updateOne(
+examinerApp.put("/updateQuestion/:username/:examname", (req, res) => {
+  // =============================================================
+  Examiner.findOne(
     {
-      $and: [
-        {
-          username: req.params.username
-        },
-        {
-          examList: {
-            $elemMatch: { questions: { $elemMatch: { qid: req.body.qid } } }
-          }
-        }
-      ]
-    }
-    // {
-    //   username: req.params.username,
-    //   examList: {
-    //     $elemMatch: { questions: { $elemMatch: { qid: req.body.qid } } }
-    //   }
-    // },
-    // FIXME: This is not working properly boz of my old mongod version
-    // {
-    // $set: {
-    //   "examList.$[outer].questions.$[inner]": {
-    //     qid: req.body.qid,
-    //     qname: req.body.qname,
-    //     ans: req.body.ans,
-    //     a: req.body.a,
-    //     b: req.body.b,
-    //     c: req.body.c,
-    //     d: req.body.d
-    //   }
-    // }
-    // }
+      username: req.params.username
+    },
+    { examList: 1, _id: 0 }
   )
+    .then(examinerObj => {
+      let toSet;
+      // Updating Examiner Perticular batch exam rasult array
+      examinerObj["examList"].map((examListData, examListIndex) => {
+        if (examListData["examname"] === req.params.examname) {
+          examListData["questions"].map((questionsData, questionsIndex) => {
+            if (questionsData["qid"] === req.body.qid) {
+              toSet =
+                "examList." + examListIndex + ".questions." + questionsIndex;
 
-    .then(() => {
-      res.json({
-        message: "New Question Updated Successfully"
+              Examiner.updateOne(
+                {
+                  $and: [
+                    {
+                      username: req.params.username
+                    },
+                    {
+                      examList: {
+                        $elemMatch: {
+                          questions: { $elemMatch: { qid: req.body.qid } }
+                        }
+                      }
+                    }
+                  ]
+                },
+                { $set: { [`${toSet}`]: req.body } }
+              )
+                .then(() => {
+                  res.json({
+                    message: "New Question Updated Successfully"
+                  });
+                })
+                .catch(err => {
+                  console.log("error in updating question of Examiner", err);
+                });
+            }
+          });
+        }
       });
     })
     .catch(err => {
-      console.log("error in updating question of Examiner", err);
+      console.log(
+        `error in FINDING during result to Examiner Perticular batch exam rasult array ${err}`
+      );
     });
+
+  // FIXME: This is not working properly boz of my old mongod version
+  // {
+  // $set: {
+  //   "examList.$[outer].questions.$[inner]": {
+  //     qid: req.body.qid,
+  //     qname: req.body.qname,
+  //     ans: req.body.ans,
+  //     a: req.body.a,
+  //     b: req.body.b,
+  //     c: req.body.c,
+  //     d: req.body.d
+  //   }
+  // }
+  // }
 });
 
 // TODO: Delete Question

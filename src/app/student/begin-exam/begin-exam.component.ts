@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-begin-exam",
@@ -12,7 +12,11 @@ export class BeginExamComponent implements OnInit {
   public examname;
   public exam = {};
 
-  constructor(private activeRoute: ActivatedRoute, private http: HttpClient) {}
+  constructor(
+    private activeRoute: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.activeRoute.params.subscribe(res => {
@@ -64,7 +68,17 @@ export class BeginExamComponent implements OnInit {
     console.log(performanceObj);
 
     this.http.put(`student/addResult`, performanceObj).subscribe(res => {
-      console.log(res["message"]);
+      if (
+        res["message"] ===
+        "Answer Submitted...Go to Performance to Check Result"
+      ) {
+        this.router.navigate(
+          ["../../../../performance", this.batchId, this.examname],
+          {
+            relativeTo: this.activeRoute
+          }
+        );
+      }
     });
   }
 }

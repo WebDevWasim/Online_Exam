@@ -350,7 +350,7 @@ studentApp.put("/addResult", (req, res) => {
 studentApp.get("/getPerformance/:studentId", (req, res) => {
   Student.findOne(
     {
-      username: req.param.studentId
+      username: req.params.studentId
     },
     { performance: 1, _id: 0 }
   )
