@@ -1,3 +1,4 @@
+import { StudentProfileComponent } from "./student-profile/student-profile.component";
 import { BeginExamComponent } from "./begin-exam/begin-exam.component";
 import { EnterBatchComponent } from "./enter-batch/enter-batch.component";
 import { StudentExamComponent } from "./student-exam/student-exam.component";
@@ -19,6 +20,10 @@ const routes: Routes = [
     component: StudentDashboardComponent,
     children: [
       { path: "", redirectTo: "exam", pathMatch: "full" },
+      {
+        path: "profile",
+        component: StudentProfileComponent
+      },
       {
         path: "exam",
         component: StudentExamComponent,

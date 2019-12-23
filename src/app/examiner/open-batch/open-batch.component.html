@@ -1,37 +1,77 @@
 <div class="container">
-  <p class="text-center text-primary display-4">{{ batchId | uppercase }}</p>
+  <h1 class="text-center text-white bg-danger">
+    {{ batchId | uppercase }}
+  </h1>
 
   <div *ngIf="studentsData.length; then thenBlock; else elseBlock"></div>
 
   <ng-template #thenBlock>
-    <table class="table table-striped table-bordered text-center mt-3">
-      <thead>
-        <th>NAME</th>
-        <th>STUDENT ID</th>
-        <th>MOBILE</th>
-        <th>INSTITUTE</th>
+    <!-- Search Box -->
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <select [(ngModel)]="searchField">
+            <option value="name">NAME</option>
+            <option value="username">USERNAME</option>
+            <option value="mobile">MOBILE</option>
+            <option value="instituteName">INSTITUTE</option>
+          </select>
+        </div>
+      </div>
+      <input
+        type="text"
+        class="form-control p-4"
+        placeholder="Search Table data"
+        [(ngModel)]="searchItem"
+      />
+    </div>
+    <!-- Student Data Table -->
+    <table
+      class="table table-striped table-hover table-responsive-lg table-bordered mt-3 pb-0 mb-0 text-center"
+    >
+      <thead class="thead-dark">
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Student Id</th>
+        <th>Mobile</th>
+        <th>Institute Id</th>
+        <th>Action</th>
       </thead>
       <tbody>
-        <tr *ngFor="let student of studentsData">
+        <tr
+          *ngFor="
+            let student of studentsData
+              | studentDataSearch: searchField:searchItem
+          "
+        >
+          <td>
+            <img
+              class="rounded-circle"
+              [src]="student.profileUrl"
+              style="border: solid 2px white;"
+              height="40"
+              width="40"
+              [alt]="student.username"
+            />
+          </td>
           <td>{{ student.name }}</td>
           <td>{{ student.username }}</td>
           <td>{{ student.mobile }}</td>
           <td>{{ student.instituteName }}</td>
 
           <td>
-            <button
-              class="btn btn-danger btn-sm"
-              (click)="removeStudent(student.username)"
-            >
-              Remove
-            </button>
+            <h4 class="text-danger">
+              <a (click)="removeStudent(student.username)"
+                ><i class="fas fa-trash-alt"></i
+              ></a>
+            </h4>
           </td>
         </tr>
       </tbody>
     </table>
   </ng-template>
   <ng-template #elseBlock>
-    <h2 class="text-center text-danger mt-3">
+    <h2 class="text-center text-danger mt-5">
       No Student Joined in this Batch
     </h2>
   </ng-template>

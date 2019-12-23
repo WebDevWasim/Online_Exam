@@ -1,0 +1,18 @@
+.col-md-9 {
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  /* border-radius: 0px 20px 20px 0px; */
+}
+.col-md-3 {
+  background-color: #fff;
+  border-radius: 20px;
+  /* border-radius: 20px 0px 0px 20px; */
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show > .btn-secondary.dropdown-toggle {
+  color: #fff;
+  background-color: #03a575;
+  border: none;
+}

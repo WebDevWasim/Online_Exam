@@ -1,0 +1,8 @@
+.navbar-nav a {
+  color: #e5e5e5;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.navbar {
+  min-height: 10vh;
+}

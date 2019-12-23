@@ -1,204 +1,324 @@
-<div class="container">
+<!-- =================================================== -->
+<div class="container-fluid">
   <div class="row">
-    <!-- =========This is Form=========== -->
-    <form
-      class="jumbotron mt-4 p-4 col-md-6 offset-md-3 bg-dark text-light"
-      #signupForm="ngForm"
-      (ngSubmit)="submitForm(signupForm)"
-    >
-      <!-- TODO: NAME  type="text"  -->
-      <div class="form-group">
-        <label for="fn">NAME</label>
-        <input
-          class="form-control"
-          [class.is-invalid]="name.invalid && (name.touched || name.dirty)"
-          [class.is-valid]="name.valid && (name.touched || name.dirty)"
-          type="text"
-          id="fn"
-          name="name"
-          #name="ngModel"
-          ngModel
-          required
-        />
-
-        <!-- FIXME:  Name Validation -->
-        <div *ngIf="name.invalid && (name.touched || name.dirty)">
-          <small class="text-warning">Name is Required</small>
+    <div class="col-lg-10 col-xl-9 mx-auto">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-img-left d-none d-md-flex">
+          <!-- Background image for card set in CSS! -->
         </div>
-      </div>
-
-      <!-- TODO: Username  type="text"  -->
-      <div class="form-group">
-        <label for="username">USERNAME</label>
-        <input
-          class="form-control"
-          [class.is-invalid]="
-            username.invalid && (username.touched || username.dirty)
-          "
-          [class.is-valid]="
-            username.valid && (username.touched || username.dirty)
-          "
-          type="text"
-          id="username"
-          name="username"
-          #username="ngModel"
-          ngModel
-          required
-        />
-
-        <!-- FIXME:  Username Validation -->
-        <div *ngIf="username.invalid && (username.touched || username.dirty)">
-          <small class="text-warning">Username is Required</small>
-        </div>
-      </div>
-
-      <!-- TODO: MOBILE NO type="number"-->
-      <div class="form-group">
-        <label for="ph">MOBILE NO</label>
-        <input
-          class="form-control"
-          type="number"
-          pattern="^[0-9]{10}$"
-          id="ph"
-          name="mobile"
-          #mobile="ngModel"
-          autocomplete="off"
-          [class.is-invalid]="
-            mobile.invalid && (mobile.dirty || mobile.touched)
-          "
-          [class.is-valid]="mobile.valid && (mobile.dirty || mobile.touched)"
-          ngModel
-          required
-        />
-
-        <!-- FIXME: Mobile No, Pattern Validation -->
-        <div *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)">
-          <small class="text-warning" *ngIf="mobile.errors?.required">
-            Valid Mobile Number is Required</small
+        <div class="card-body">
+          <form
+            class="form-signin"
+            #signupForm="ngForm"
+            (ngSubmit)="submitForm(signupForm)"
           >
-          <small class="text-warning" *ngIf="mobile.errors?.pattern">
-            Mobile Number Must be 10 digits</small
-          >
+            <!--  NAME  type="text"  -->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                [class.is-invalid]="
+                  name.invalid && (name.touched || name.dirty)
+                "
+                [class.is-valid]="name.valid && (name.touched || name.dirty)"
+                type="text"
+                id="fn"
+                name="name"
+                #name="ngModel"
+                ngModel
+                required
+                placeholder="Name"
+                autofocus
+              />
+              <label for="fn">Name</label>
+              <!-- FIXME:  Name Validation -->
+              <div *ngIf="name.invalid && (name.touched || name.dirty)">
+                <small class="text-danger ml-4">Name is Required</small>
+              </div>
+            </div>
+            <!--  Username  type="text"  -->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                [class.is-invalid]="
+                  username.invalid && (username.touched || username.dirty)
+                "
+                [class.is-valid]="
+                  username.valid && (username.touched || username.dirty)
+                "
+                type="text"
+                id="username"
+                name="username"
+                #username="ngModel"
+                ngModel
+                placeholder="Username"
+                required
+              />
+              <label for="username">Username</label>
+              <!-- FIXME:  Username Validation -->
+              <div
+                *ngIf="username.invalid && (username.touched || username.dirty)"
+              >
+                <small class="text-danger ml-4">Username is Required</small>
+              </div>
+            </div>
+
+            <!-- MOBILE NO type="number"-->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                type="number"
+                pattern="[6789][0-9]{9}"
+                id="ph"
+                name="mobile"
+                #mobile="ngModel"
+                autocomplete="off"
+                [class.is-invalid]="
+                  mobile.invalid && (mobile.dirty || mobile.touched)
+                "
+                [class.is-valid]="
+                  mobile.valid && (mobile.dirty || mobile.touched)
+                "
+                ngModel
+                required
+                placeholder="Mobile No"
+              />
+              <label for="ph">Mobile No</label>
+              <!-- FIXME: Mobile No, Pattern Validation -->
+              <div *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)">
+                <small class="text-danger ml-4" *ngIf="mobile.errors?.required">
+                  Valid Mobile Number is Required</small
+                >
+                <small class="text-danger ml-4" *ngIf="mobile.errors?.pattern">
+                  Please Give Valid Mobile No</small
+                >
+              </div>
+            </div>
+            <!-- TODO: EMAIL-->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                type="email"
+                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                id="email"
+                name="email"
+                #email="ngModel"
+                [class.is-invalid]="
+                  email.invalid && (email.dirty || email.touched)
+                "
+                [class.is-valid]="email.valid && (email.dirty || email.touched)"
+                ngModel
+                required
+                placeholder="Email"
+              />
+              <label for="email">email</label>
+              <!-- FIXME: email Validation -->
+              <div
+                class="text-danger ml-4"
+                *ngIf="email.invalid && (email.dirty || email.touched)"
+              >
+                <small *ngIf="email.errors?.required">
+                  email is Required
+                </small>
+
+                <small *ngIf="email.errors?.pattern">
+                  Please enter valid email ID
+                </small>
+              </div>
+            </div>
+            <!-- institute Name  type="text"  -->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                [class.is-invalid]="
+                  instituteName.invalid &&
+                  (instituteName.touched || instituteName.dirty)
+                "
+                [class.is-valid]="
+                  instituteName.valid &&
+                  (instituteName.touched || instituteName.dirty)
+                "
+                type="text"
+                id="instituteName"
+                name="instituteName"
+                #instituteName="ngModel"
+                ngModel
+                required
+                placeholder="Institute Name"
+              />
+              <label for="instituteName">Institute Name</label>
+              <!-- FIXME:  institute Name Validation -->
+              <div
+                *ngIf="
+                  instituteName.invalid &&
+                  (instituteName.touched || instituteName.dirty)
+                "
+              >
+                <small class="text-danger ml-4"
+                  >Institute Name is Required</small
+                >
+              </div>
+            </div>
+            <!--  PASSWORD-->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                type="password"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                id="password"
+                name="password"
+                #password="ngModel"
+                [class.is-invalid]="
+                  password.invalid && (password.dirty || password.touched)
+                "
+                [class.is-valid]="
+                  password.valid && (password.dirty || password.touched)
+                "
+                ngModel
+                required
+                placeholder="Password"
+              />
+              <label for="password">Password</label>
+              <!-- FIXME: PASSWORD Validation -->
+              <div
+                class="text-danger ml-4"
+                *ngIf="password.invalid && (password.dirty || password.touched)"
+              >
+                <small *ngIf="password.errors?.required">
+                  Password is Required
+                </small>
+
+                <small *ngIf="password.errors?.pattern">
+                  Must contain at least one number and one uppercase and
+                  lowercase letter, and at least 8 or more characters
+                </small>
+              </div>
+            </div>
+            <!-- CONFIRM PASSWORD-->
+            <div class="form-label-group">
+              <input
+                class="form-control"
+                type="password"
+                id="cnfPassword"
+                name="cnfPassword"
+                [class.is-invalid]="
+                  cnfPassword.invalid &&
+                  (cnfPassword.dirty || cnfPassword.touched)
+                "
+                [class.is-valid]="
+                  cnfPassword.valid &&
+                  (cnfPassword.dirty || cnfPassword.touched)
+                "
+                #cnfPassword="ngModel"
+                pattern="{{ password.value }}"
+                ngModel
+                required
+                placeholder="Confirm password"
+              />
+              <label for="cnfPassword">Confirm password</label>
+              <!-- FIXME: CONFIRM PASSWORD Validation -->
+              <div
+                class="text-danger ml-4"
+                *ngIf="
+                  cnfPassword.invalid &&
+                  (cnfPassword.dirty || cnfPassword.touched)
+                "
+              >
+                <small
+                  *ngIf="
+                    cnfPassword.errors?.pattern || cnfPassword.errors?.required
+                  "
+                >
+                  Confirm Password must match with Password
+                </small>
+              </div>
+            </div>
+
+            <button
+              class="btn btn-lg btn-block text-uppercase"
+              [disabled]="signupForm.invalid"
+              type="submit"
+              [ngClass]="{
+                'btn-success': signupForm.valid,
+                'btn-danger': signupForm.invalid
+              }"
+              [disabled]="loading"
+            >
+              Register
+              <span
+                [ngClass]="{
+                  'spinner-border spinner-border-sm text-warning': loading
+                }"
+              ></span>
+            </button>
+            <!-- Alert Message -->
+            <div
+              class="alert alert-success mt-3"
+              role="alert"
+              *ngIf="isNotRegistered"
+              data-toggle="modal"
+              data-target="#myModal"
+            >
+              <strong>{{ message }}</strong>
+            </div>
+            <div
+              class="alert alert-danger mt-3"
+              role="alert"
+              *ngIf="isRegistered"
+            >
+              <strong>{{ message }}</strong>
+            </div>
+            <!-- Divider Text -->
+            <div
+              class="form-group col-lg-12 mx-auto d-flex align-items-center my-4"
+            >
+              <div class="border-bottom w-100 ml-5"></div>
+              <span class="px-2 small text-muted font-weight-bold text-muted"
+                >OR</span
+              >
+              <div class="border-bottom w-100 mr-5 mb-0 pb-0"></div>
+            </div>
+            <!-- Already Registered -->
+            <div class="text-center w-100 mt-0 pt-0">
+              <p class="text-muted font-weight-bold">
+                Already Registered?
+                <a
+                  class="text-danger ml-2"
+                  style="cursor: pointer;"
+                  (click)="LogIn()"
+                  >LogIn</a
+                >
+              </p>
+            </div>
+          </form>
         </div>
       </div>
-
-      <!-- TODO: institute Name  type="text"  -->
-      <div class="form-group">
-        <label for="instituteName">INSTITUTE NAME</label>
-        <input
-          class="form-control"
-          [class.is-invalid]="
-            instituteName.invalid &&
-            (instituteName.touched || instituteName.dirty)
-          "
-          [class.is-valid]="
-            instituteName.valid &&
-            (instituteName.touched || instituteName.dirty)
-          "
-          type="text"
-          id="instituteName"
-          name="instituteName"
-          #instituteName="ngModel"
-          ngModel
-          required
-        />
-
-        <!-- FIXME:  institute Name Validation -->
-        <div
-          *ngIf="
-            instituteName.invalid &&
-            (instituteName.touched || instituteName.dirty)
-          "
+    </div>
+  </div>
+</div>
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade" #myModal>
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="icon-box text-center mx-auto d-block">
+          <i class="material-icons text-center mx-auto d-block">&#xE876;</i>
+        </div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
         >
-          <small class="text-warning">Institute Name is Required</small>
-        </div>
+          &times;
+        </button>
       </div>
-
-      <!-- TODO: PASSWORD-->
-      <div class="form-group">
-        <label for="password">PASSWORD</label>
-        <input
-          class="form-control"
-          type="password"
-          pattern="^[0-9]{4}[a-zA-Z]{4}.*"
-          id="password"
-          name="password"
-          #password="ngModel"
-          [class.is-invalid]="
-            password.invalid && (password.dirty || password.touched)
-          "
-          [class.is-valid]="
-            password.valid && (password.dirty || password.touched)
-          "
-          ngModel
-          required
-        />
-
-        <!-- FIXME: PASSWORD Validation -->
-        <div
-          class="text-warning"
-          *ngIf="password.invalid && (password.dirty || password.touched)"
-        >
-          <small *ngIf="password.errors?.required">
-            Password is Required
-          </small>
-
-          <small *ngIf="password.errors?.pattern">
-            Password Must be 8 characters and Match valid pattern Ex: 1234AbcD
-          </small>
-        </div>
+      <div class="modal-body text-center">
+        <h4>Great!</h4>
+        <p>Your account has been created successfully.</p>
+        <button class="btn btn-success" data-dismiss="modal" (click)="LogIn()">
+          <span>Login</span> <i class="material-icons">&#xE5C8;</i>
+        </button>
       </div>
-
-      <!-- TODO: CONFIRM PASSWORD-->
-      <div class="form-group">
-        <label for="cnfPassword">CONFIRM PASSWORD</label>
-        <input
-          class="form-control"
-          type="password"
-          id="cnfPassword"
-          name="cnfPassword"
-          [class.is-invalid]="
-            cnfPassword.invalid && (cnfPassword.dirty || cnfPassword.touched)
-          "
-          [class.is-valid]="
-            cnfPassword.valid && (cnfPassword.dirty || cnfPassword.touched)
-          "
-          #cnfPassword="ngModel"
-          pattern="{{ password.value }}"
-          ngModel
-          required
-        />
-
-        <!-- FIXME: CONFIRM PASSWORD Validation -->
-        <div
-          class="text-warning"
-          *ngIf="
-            cnfPassword.invalid && (cnfPassword.dirty || cnfPassword.touched)
-          "
-        >
-          <small
-            *ngIf="cnfPassword.errors?.pattern || cnfPassword.errors?.required"
-          >
-            Confirm Password must match with Password
-          </small>
-        </div>
-      </div>
-
-      <!--  TODO: Submit Button -->
-      <button
-        type="submit"
-        [disabled]="signupForm.invalid"
-        class="btn form-control"
-        [ngClass]="{
-          'btn-success': signupForm.valid,
-          'btn-danger': signupForm.invalid
-        }"
-      >
-        RESISTER
-      </button>
-    </form>
-    <button class="btn btn-info form-control" (click)="LogIn()">
-      Log In
-    </button>
+    </div>
   </div>
 </div>

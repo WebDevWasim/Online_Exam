@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { LoginService } from "src/app/login.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-examiner-dashboard",
@@ -7,10 +8,18 @@ import { LoginService } from "src/app/login.service";
   styleUrls: ["./examiner-dashboard.component.css"]
 })
 export class ExaminerDashboardComponent implements OnInit {
-  constructor(private login: LoginService) {}
+  constructor(private login: LoginService, private http: HttpClient) {}
+  public examinerObj: object = {};
   logOut() {
     this.login.logout();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    let examinerId = localStorage.getItem("username");
+    this.http
+      .get(`examiner/getExaminerDetails/${examinerId}`)
+      .subscribe(res => {
+        this.examinerObj = res["message"];
+      });
+  }
 }

@@ -1,22 +1,55 @@
-<div class="container mt-3">
-  <button (click)="logOut()" class="btn btn-danger float-right">Logout</button>
+<nav
+  class="navbar navbar-expand-lg navbar-dark"
+  style="background-color: #7e0cf5;"
+>
+  <div class="container">
+    <a class="navbar-brand" routerLink="profile" routerLinkActive="active">
+      <img
+        class="rounded-circle"
+        [src]="studentObj['profileUrl']"
+        style="border: solid 2px white;"
+        height="35"
+        width="35"
+        [alt]="studentObj['username']"
+      />
+      <span> {{ studentObj["name"] | uppercase }}</span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse justify-content-center"
+      id="navbarNavAltMarkup"
+    >
+      <div class="navbar-nav">
+        <a
+          class="nav-item nav-link"
+          routerLink="exam"
+          routerLinkActive="active"
+        >
+          <b>EXAM</b>
+        </a>
+        <a
+          class="nav-item nav-link"
+          routerLink="performance"
+          routerLinkActive="active"
+        >
+          <b>PERFORMANCE</b>
+        </a>
+      </div>
+    </div>
+    <button (click)="logOut()" class="btn btn-danger float-right">
+      <span> <i class="fas fa-sign-in-alt"></i></span> Logout
+    </button>
+  </div>
+</nav>
 
-  <h1>STUDENT</h1>
-
-  <ul class="nav nav-tabs justify-content-center">
-    <li class="nav-item">
-      <a class="nav-item nav-link" routerLink="exam" routerLinkActive="active"
-        >EXAM</a
-      >
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-item nav-link"
-        routerLink="performance"
-        routerLinkActive="active"
-        >PERFORMANCE</a
-      >
-    </li>
-  </ul>
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>

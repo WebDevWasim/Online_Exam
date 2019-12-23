@@ -19,9 +19,9 @@ export class ResultQuestionComponent implements OnInit {
     this.examname = this.activeRoute.snapshot.parent.paramMap.get("examname");
 
     this.http
-      .get(`examiner/getPublishQuestions/${examiner}/${this.examname}`)
+      .get(`examiner/getPerformanceArrayDetails/${examiner}/${this.examname}`)
       .subscribe(res => {
-        this.questions = res["message"];
+        this.questions = res["questions"];
       });
   }
 }

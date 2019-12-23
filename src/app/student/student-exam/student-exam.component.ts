@@ -1,5 +1,4 @@
 import { Router, ActivatedRoute } from "@angular/router";
-import { LoggedUserService } from "./../../logged-user.service";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 
@@ -15,7 +14,6 @@ export class StudentExamComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private loggedUser: LoggedUserService,
     private router: Router,
     private route: ActivatedRoute
   ) {}

@@ -1,3 +1,4 @@
+import { ExaminerProfileComponent } from "./examiner-profile/examiner-profile.component";
 import { ResultQuestionComponent } from "./result-question/result-question.component";
 import { ResultMarkComponent } from "./result-mark/result-mark.component";
 import { CheckResultComponent } from "./check-result/check-result.component";
@@ -23,6 +24,10 @@ const routes: Routes = [
     component: ExaminerDashboardComponent,
     children: [
       { path: "", redirectTo: "exam", pathMatch: "full" },
+      {
+        path: "profile",
+        component: ExaminerProfileComponent
+      },
       {
         path: "exam",
         component: ExaminerExamComponent,

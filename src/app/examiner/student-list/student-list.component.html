@@ -1,45 +1,164 @@
-<!-- <router-outlet></router-outlet> -->
-<div class="container mt-3">
+<div class="container">
   <button
     type="button"
-    class="btn btn-primary d-block "
+    class="btn btn-success d-block mt-3"
     data-toggle="modal"
     data-target="#exampleModal"
   >
-    New Batch
+    + New Batch
   </button>
 
-  <div class="row card-group text-center">
+  <div class="row card-group text-center" *ngIf="allBatch.length">
     <div class="col-md-4" *ngFor="let batch of allBatch">
-      <div class="card mt-3">
-        <div class="card-body">
-          <h4 class="card-title">{{ batch.batchName }}</h4>
-          <p class="card-text">Batch ID : {{ batch.batchId }}</p>
-          <a
-            routerLink="open-batch"
-            class="btn btn-success d-block mx-auto btn-sm"
-            (click)="openBatch(batch.batchId)"
-          >
-            Open Batch
-          </a>
+      <div class="card rounded mt-4">
+        <h4 class="card-header">
+          <a routerLink="open-batch" (click)="openBatch(batch.batchId)">{{
+            batch.batchName | uppercase
+          }}</a>
+        </h4>
+        <div class="card-body p-1 pt-2">
+          <h3 class="badge badge-danger p-2">
+            {{ batch.batchId | uppercase }}
+          </h3>
+          <h5 class="text-muted">Total Student : {{ batch.student.length }}</h5>
+        </div>
+        <div class="card-footer p-0 pt-2">
+          <div class="row">
+            <h4 class="col text-primary">
+              <a
+                data-toggle="modal"
+                (click)="editBatch(batch.batchId)"
+                data-target="#example"
+                ><i class="fas fa-edit"></i>
+              </a>
+            </h4>
+
+            <h4 class="col text-danger">
+              <a (click)="deleteBatch(batch.batchId)"
+                ><i class="fas fa-trash-alt"></i
+              ></a>
+            </h4>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <div>
+    <h3 class="text-danger text-center mt-3" *ngIf="!allBatch.length">
+      No Batch is Added
+    </h3>
+  </div>
 </div>
+
 <!-- ===================================Open New Batch Model -->
+
 <div
-  class="modal fade"
   id="exampleModal"
+  class="modal fade"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-login">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Batch</h5>
+        <h4 class="modal-title" id="exampleModalLabel">Add Batch</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #myForm="ngForm">
+          <!-- TODO: BATCH NAME   type="text"  -->
+          <div class="form-group">
+            <label for="fn1">BATCH NAME</label>
+            <input
+              class="form-control"
+              [class.is-invalid]="
+                batchname1.invalid && (batchname1.touched || batchname1.dirty)
+              "
+              [class.is-valid]="
+                batchname1.valid && (batchname1.touched || batchname1.dirty)
+              "
+              type="text"
+              id="fn1"
+              name="batchName"
+              #batchname1="ngModel"
+              ngModel
+              placeholder="Batch Name"
+              required
+            />
+
+            <!-- FIXME:  Name Validation -->
+            <div
+              *ngIf="
+                batchname1.invalid && (batchname1.touched || batchname1.dirty)
+              "
+            >
+              <small class="text-danger">Batch Name is Required</small>
+            </div>
+          </div>
+          <!-- TODO: BATCH ID   type="text"  -->
+          <div class="form-group">
+            <label for="fn">BATCH ID</label>
+            <input
+              class="form-control"
+              [class.is-invalid]="
+                batchId1.invalid && (batchId1.touched || batchId1.dirty)
+              "
+              [class.is-valid]="
+                batchId1.valid && (batchId1.touched || batchId1.dirty)
+              "
+              type="text"
+              id="fn"
+              name="batchId"
+              #batchId1="ngModel"
+              ngModel
+              placeholder="Batch ID"
+              required
+            />
+
+            <!-- FIXME:  Name Validation -->
+            <div
+              *ngIf="batchId1.invalid && (batchId1.touched || batchId1.dirty)"
+            >
+              <small class="text-danger">Batch ID is Required</small>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-success btn-block btn-lg"
+            data-dismiss="modal"
+            [disabled]="myForm.invalid"
+            (click)="addBatch(myForm.value)"
+          >
+            Add Batch
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================Open New Batch Model -->
+<div
+  class="modal fade"
+  id="example"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-login" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleLabel">Edit Batch</h4>
         <button
           type="button"
           class="close"
@@ -50,7 +169,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="jumbotron bg-light text-dark pt-3 pb-3" #myForm="ngForm">
+        <form #myForm1="ngForm">
           <!-- TODO: BATCH NAME   type="text"  -->
           <div class="form-group">
             <label for="fn1">BATCH NAME</label>
@@ -66,7 +185,7 @@
               id="fn1"
               name="batchName"
               #batchname="ngModel"
-              ngModel
+              [ngModel]="currentBatch.batchName"
               required
             />
 
@@ -94,7 +213,8 @@
               id="fn"
               name="batchId"
               #batchId="ngModel"
-              ngModel
+              [ngModel]="currentBatch.batchId"
+              disabled
               required
             />
 
@@ -104,19 +224,14 @@
             </div>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
         <button
           type="button"
-          class="btn btn-success"
+          class="btn btn-success form-control"
           data-dismiss="modal"
-          [disabled]="myForm.invalid"
-          (click)="addBatch(myForm.value)"
+          [disabled]="myForm1.invalid"
+          (click)="updateBatch(myForm1.value, currentBatch.batchId)"
         >
-          Add Batch
+          Update
         </button>
       </div>
     </div>

@@ -1,9 +1,11 @@
 <div class="container">
-  <h3 class="text-center text-primary">{{ examname | uppercase }}</h3>
+  <h3 class="text-center text-white bg-danger pb-1 pt-2 mb-3">
+    {{ examname | uppercase }}
+  </h3>
 
   <button
     type="button"
-    class="btn btn-success d-block btn-sm"
+    class="btn btn-success d-block"
     data-toggle="modal"
     data-target="#exampleModal"
   >
@@ -97,7 +99,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-login">
     <div class="modal-content">
       <div class="modal-body">
         <button
@@ -108,17 +110,15 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <form class="jumbotron bg-light text-dark m-0 p-3" #myForm="ngForm">
+        <form class="m-0 p-3" #myForm="ngForm">
           <!-- TODO: EXAM NAME   type="text"  -->
           <div class="form-group">
-            <label for="fnn">Question Name</label>
+            <label for="fnn">QUESTION NAME</label>
 
             <textarea
               rows="2"
               class="form-control"
-              [class.is-invalid]="
-                qnam.invalid && (qnam.touched || qnam.dirty)
-              "
+              [class.is-invalid]="qnam.invalid && (qnam.touched || qnam.dirty)"
               [class.is-valid]="qnam.valid && (qnam.touched || qnam.dirty)"
               id="fnn"
               name="qname"
@@ -278,7 +278,7 @@
 
           <button
             type="button"
-            class="btn btn-success w-50 mx-auto d-block"
+            class="btn btn-success btn-block btn-lg"
             data-dismiss="modal"
             [disabled]="myForm.invalid"
             (click)="addQuestion(myForm)"
@@ -299,7 +299,7 @@
   aria-labelledby="exampleLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-login">
     <div class="modal-content">
       <div class="modal-body">
         <button
@@ -310,10 +310,10 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <form class="jumbotron bg-light text-dark m-0 p-3" #myForm1="ngForm">
+        <form class="m-0 p-3" #myForm1="ngForm">
           <!-- TODO: EXAM NAME   type="text"  -->
           <div class="form-group">
-            <label for="fn">Question Name</label>
+            <label for="fn">QUESTION NAME</label>
 
             <textarea
               rows="2"
@@ -326,7 +326,7 @@
               name="qname"
               #qname="ngModel"
               placeholder="Enter Question name"
-              [ngModel] = currentQuestion.qname
+              [ngModel]="currentQuestion.qname"
               required
             ></textarea>
             <!--  Validation -->
@@ -348,7 +348,7 @@
                   [class.is-valid]="a.valid && (a.touched || a.dirty)"
                   name="a"
                   #a="ngModel"
-                  [ngModel] = currentQuestion.a
+                  [ngModel]="currentQuestion.a"
                   required
                   placeholder="Option A"
                 />
@@ -366,7 +366,7 @@
                   [class.is-valid]="b.valid && (b.touched || b.dirty)"
                   name="b"
                   #b="ngModel"
-                  [ngModel] = currentQuestion.b
+                  [ngModel]="currentQuestion.b"
                   required
                   placeholder="Option B"
                 />
@@ -384,7 +384,7 @@
                   [class.is-valid]="c.valid && (c.touched || c.dirty)"
                   name="c"
                   #c="ngModel"
-                  [ngModel] = currentQuestion.c
+                  [ngModel]="currentQuestion.c"
                   required
                   placeholder="Option C"
                 />
@@ -402,7 +402,7 @@
                   [class.is-valid]="d.valid && (d.touched || d.dirty)"
                   name="d"
                   #d="ngModel"
-                  [ngModel] = currentQuestion.d
+                  [ngModel]="currentQuestion.d"
                   required
                   placeholder="Option D"
                 />
@@ -427,7 +427,7 @@
                   type="radio"
                   class="form-check-input"
                   name="ans"
-                  [ngModel] = currentQuestion.ans
+                  [ngModel]="currentQuestion.ans"
                   #ans="ngModel"
                   value="a"
                   required
@@ -441,8 +441,7 @@
                   type="radio"
                   class="form-check-input"
                   name="ans"
-                  [ngModel] = currentQuestion.ans
-
+                  [ngModel]="currentQuestion.ans"
                   #ans="ngModel"
                   value="b"
                   required
@@ -456,8 +455,7 @@
                   type="radio"
                   class="form-check-input"
                   name="ans"
-                  [ngModel] = currentQuestion.ans
-
+                  [ngModel]="currentQuestion.ans"
                   #ans="ngModel"
                   value="c"
                   required
@@ -471,8 +469,7 @@
                   type="radio"
                   class="form-check-input"
                   name="ans"
-                  [ngModel] = currentQuestion.ans
-
+                  [ngModel]="currentQuestion.ans"
                   #ans="ngModel"
                   value="d"
                   required
@@ -483,12 +480,12 @@
 
           <button
             type="button"
-            class="btn btn-success w-50 mx-auto d-block"
+            class="btn btn-success form-control"
             data-dismiss="modal"
             [disabled]="myForm1.invalid"
             (click)="updateQuestion(myForm1.value)"
           >
-             Update Question
+            Update Question
           </button>
         </form>
       </div>

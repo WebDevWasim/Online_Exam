@@ -14,6 +14,15 @@ const studentSchema = new Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    required: true
+  },
+  profileUrl: {
+    type: String,
+    default:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+  },
 
   instituteName: {
     type: String,

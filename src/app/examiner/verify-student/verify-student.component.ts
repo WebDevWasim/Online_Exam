@@ -16,7 +16,8 @@ export class VerifyStudentComponent implements OnInit {
 
   // private examiner = this.loggedUser.loggedUserName();
   private examiner = localStorage.getItem("username");
-
+  public searchItem: any;
+  public searchField: any = "batchId";
   private studentsData = [];
 
   loadRequestList() {

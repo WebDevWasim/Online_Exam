@@ -17,6 +17,34 @@ const util = require("util");
 const Student = require("../model/student");
 const Examiner = require("../model/examiner");
 
+// TODO:PHOTO UPLOAD ================================================================
+// Multer import
+const multer = require("multer");
+
+// import cloudinary
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+// configuring cloudinary
+cloudinary.config({
+  cloud_name: "wasimkhan",
+  api_key: "928417319282593",
+  api_secret: "eqPsb8yk8e4CoB9fcZnKK6Ba1Pg"
+});
+
+// inform multer-storage-cloudinary to save photo to cloudinary
+const storage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: "Online Exam",
+  allowedFormats: ["jpg", "png"],
+  filename: function(req, file, cb) {
+    cb(undefined, file.fieldname + "_" + Date.now());
+  }
+});
+
+// Multer configure
+let upload = multer({ storage: storage });
+
 // const verifyToken = require("../middleware/verifyToken");
 
 //TODO: Registration
@@ -41,13 +69,14 @@ studentApp.post("/register", (req, res) => {
                     username: req.body.username.toLowerCase(),
                     mobile: req.body.mobile,
                     instituteName: req.body.instituteName,
-                    password: req.body.password
+                    password: req.body.password,
+                    email: req.body.email
                   });
                   studentDoc
                     .save()
                     .then(() => {
                       res.json({
-                        message: `${req.body.name} is registered succesfully`
+                        message: `registered succesfully`
                       });
                     })
                     .catch(err => {
@@ -59,7 +88,7 @@ studentApp.post("/register", (req, res) => {
                 });
             } else {
               res.json({
-                message: `${req.body.username} is already registered`
+                message: `already registered`
               });
             }
           })
@@ -83,7 +112,7 @@ studentApp.post("/login", (req, res) => {
     .then(studentObj => {
       if (studentObj === null) {
         res.json({
-          message: `Invalid Username ${req.body.username}`
+          message: `Invalid Username`
         });
       } else {
         bcrypt
@@ -118,6 +147,68 @@ studentApp.post("/login", (req, res) => {
     })
     .catch(err => {
       console.log("err in finding user during Login", err);
+    });
+});
+
+// TODO: Get Student Details
+studentApp.get("/getStudentDetails/:studentId", (req, res) => {
+  Student.findOne({
+    username: req.params.studentId
+  })
+    .then(studentObj => {
+      res.json({
+        message: studentObj
+      });
+    })
+    .catch(err => {
+      console.log(`error in getting student details ${err}`);
+    });
+});
+
+// TODO: Update Student Details
+studentApp.put("/updateStudentDetails/:studentId", (req, res) => {
+  Student.updateOne(
+    {
+      username: req.params.studentId
+    },
+    {
+      $set: {
+        instituteName: req.body.instituteName,
+        name: req.body.name,
+        email: req.body.email,
+        mobile: req.body.mobile
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: "Student Profile Updated Successfully"
+      });
+    })
+    .catch(err => {
+      console.log(`error in getting student details ${err}`);
+    });
+});
+
+// TODO: Update Student Profile Photo
+studentApp.put("/updateStudentPhoto", upload.single("photo"), (req, res) => {
+  req.body = JSON.parse(req.body.studentObj);
+
+  Student.updateOne(
+    { username: req.body.username },
+    {
+      $set: {
+        profileUrl: req.file.secure_url
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: "Profile Photo Updated Successfully"
+      });
+    })
+    .catch(err => {
+      console.log(`error in Updating profile Picture ${err}`);
     });
 });
 

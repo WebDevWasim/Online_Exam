@@ -1,4 +1,3 @@
-import { LoggedUserService } from "./../../logged-user.service";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -11,14 +10,13 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class StudentListComponent implements OnInit {
   constructor(
     private http: HttpClient,
-    private loggedUser: LoggedUserService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   public allBatch = [];
+  public currentBatch = {};
   fetchBatch() {
-    // let examiner = this.loggedUser.loggedUserName();
     let examiner = localStorage.getItem("username");
     this.http.get(`examiner/fetchbatch/${examiner}`).subscribe(res => {
       this.allBatch = res["message"];
@@ -47,6 +45,36 @@ export class StudentListComponent implements OnInit {
     });
   }
 
+  editBatch(batchId) {
+    let currentBatchArr = (this.currentBatch = this.allBatch.filter(
+      batchObj => {
+        return batchObj["batchId"] === batchId;
+      }
+    ));
+    this.currentBatch = currentBatchArr[0];
+  }
+
+  updateBatch(batchObj, batchId) {
+    batchObj.batchId = batchId;
+    this.http.put(`examiner/updateBatch`, batchObj).subscribe(res => {
+      if (res["message"] == "Batch Updated Successfully") {
+        this.fetchBatch();
+      }
+    });
+  }
+
+  deleteBatch(batchId) {
+    let batchObj = {
+      batchId: batchId
+    };
+    // this.http.put(`examiner/deleteBatch`, batchObj).subscribe(res => {
+    //   if (res["message"] == "Batch Removed Successfully") {
+    //     console.log("success");
+
+    //     this.fetchBatch();
+    //   }
+    // });
+  }
   openBatch(batchId) {
     this.router.navigate(["../open-batch", batchId], {
       relativeTo: this.route

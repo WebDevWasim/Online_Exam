@@ -8,8 +8,10 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./open-batch.component.css"]
 })
 export class OpenBatchComponent implements OnInit {
+  public searchItem: any;
+  public searchField: any = "name";
   public batchId;
-  public studentsData = [];
+  public studentsData: object[] = [];
   constructor(private activeRoute: ActivatedRoute, private http: HttpClient) {}
 
   // private examiner = this.loggedUser.loggedUserName();

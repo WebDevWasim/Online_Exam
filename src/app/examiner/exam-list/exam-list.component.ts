@@ -96,10 +96,8 @@ export class ExamListComponent implements OnInit {
     this.http
       .put(`examiner/updateExam/${examiner}`, valueObj)
       .subscribe(res => {
-        if (res["message"] == "New Exam Updated Successfully") {
+        if (res["message"] == "Exam Updated Successfully") {
           this.fetchExam();
-        } else {
-          alert(res["message"]);
         }
       });
   }

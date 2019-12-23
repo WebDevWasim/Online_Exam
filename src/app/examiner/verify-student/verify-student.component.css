@@ -1,0 +1,12 @@
+a {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+a :hover {
+  transform: scale(1.2);
+}
+
+.table {
+  font-family: "Varela Round", sans-serif;
+}

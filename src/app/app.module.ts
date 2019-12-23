@@ -12,15 +12,13 @@ import { AboutusComponent } from "./aboutus/aboutus.component";
 import { ContactusComponent } from "./contactus/contactus.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 
-
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutusComponent,
     ContactusComponent,
-    NavbarComponent,
- 
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

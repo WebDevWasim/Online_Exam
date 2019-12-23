@@ -1,25 +1,29 @@
-<div class="row card-group text-center mb-3" *ngIf="performances.length">
-  <div class="col-md-3" *ngFor="let performance of performances">
-    <div class="card mt-3">
-      <div class="card-body">
-        <h4>
-          {{ performance.examname | uppercase }}
-        </h4>
-        <p class="badge badge-primary m-0 p-2 mt-1">
-          {{ performance["batchId"] | uppercase }}
-        </p>
-        <p class="m-0 p-0 mb-2">Marks : {{ performance["answers"]?.length }}</p>
-        <button
-          class="btn btn-success d-block text-light w-75 mx-auto btn-sm m-1 mb-2"
-          (click)="checkResult(performance.examname, performance.batchId)"
-        >
-          Result
-        </button>
+<div class="container">
+  <div class="row card-group text-center mb-3" *ngIf="performances.length">
+    <div class="col-md-3" *ngFor="let performance of performances">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h4>
+            {{ performance.examname | uppercase }}
+          </h4>
+          <p class="badge badge-primary m-0 p-2 mt-1">
+            {{ performance["batchId"] | uppercase }}
+          </p>
+          <p class="m-0 p-0 mb-2">
+            Marks : {{ performance["answers"]?.length }}
+          </p>
+          <button
+            class="btn btn-success d-block text-light w-75 mx-auto btn-sm m-1 mb-2"
+            (click)="checkResult(performance.examname, performance.batchId)"
+          >
+            Result
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<h3 class="text-danger mt-5 text-center" *ngIf="!performances.length">
-  Give the Exam to get Result
-</h3>
+  <h3 class="text-danger mt-5 text-center" *ngIf="!performances.length">
+    Give the Exam to get Result
+  </h3>
+</div>

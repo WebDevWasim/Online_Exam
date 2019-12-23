@@ -1,0 +1,40 @@
+/* modal */
+
+.modal {
+  font-family: "Varela Round", sans-serif;
+}
+.modal-login {
+  max-width: 450px;
+}
+.modal-login .modal-content {
+  padding: 15px;
+  border-radius: 1px;
+}
+.modal-login .modal-header {
+  border-bottom: none;
+  position: relative;
+  justify-content: center;
+}
+
+.modal-login .form-group {
+  margin-bottom: 15px;
+}
+.modal-login .form-control,
+.modal-login .btn {
+  min-height: 40px;
+  border-radius: 30px;
+  font-size: 15px;
+  transition: all 0.5s;
+}
+.modal-login .form-control {
+  font-size: 13px;
+}
+
+.modal-login .close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+.btn {
+  line-height: normal;
+}

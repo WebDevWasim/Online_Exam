@@ -12,6 +12,7 @@ import { ExaminerBatchComponent } from './examiner-batch/examiner-batch.componen
 import { EnterBatchComponent } from './enter-batch/enter-batch.component';
 import { BeginExamComponent } from './begin-exam/begin-exam.component';
 import { CheckPerformanceComponent } from './check-performance/check-performance.component';
+import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CheckPerformanceComponent } from './check-performance/check-performance
     ExaminerBatchComponent,
     EnterBatchComponent,
     BeginExamComponent,
-    CheckPerformanceComponent
+    CheckPerformanceComponent,
+    StudentProfileComponent
   ],
   imports: [CommonModule, StudentRoutingModule, FormsModule]
 })

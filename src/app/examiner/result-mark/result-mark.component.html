@@ -1,1 +1,154 @@
-<p>result-mark works!</p>
+<div
+  class="accordion mt-3"
+  id="accordionExample"
+  *ngFor="let result of performance"
+>
+  <div class="card">
+    <button
+      class="btn btn-dark btn-lg form-control"
+      data-toggle="collapse"
+      attr.data-target="#{{ result.batchId }}"
+    >
+      {{ result.batchId | uppercase }}
+    </button>
+
+    <div
+      id="{{ result.batchId }}"
+      class="collapse"
+      data-parent="#accordionExample"
+    >
+      <div class="card-body">
+        <table
+          class="table table-striped table-bordered text-center mt-3"
+          *ngIf="result.allResult?.length"
+        >
+          <thead>
+            <th>Student ID</th>
+            <th>Total Questions</th>
+            <th>Question Attempt</th>
+            <th>Wrong Answer</th>
+            <th>Score</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of result.allResult">
+              <td>
+                <button
+                  class="btn btn-link btn-sm"
+                  data-toggle="modal"
+                  data-target="#exampleModalLong"
+                  (click)="showResult(result.batchId, student.studentId)"
+                >
+                  {{ student.studentId | uppercase }}
+                </button>
+              </td>
+              <td>{{ student.totalQuestions }}</td>
+              <td>{{ student.attemptQuestion }}</td>
+              <td>{{ student.wrongAns }}</td>
+              <td>{{ student.totalScore }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4
+          class="text-center text-danger mt-3"
+          *ngIf="!result.allResult?.length"
+        >
+          No Student has attempt this exam in this batch
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL ====================== -->
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalLong"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title text-center" id="exampleModalLabel">
+          {{ examname | uppercase }}
+        </h5>
+        <button
+          type="button"
+          class="close text-white"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-light">
+        <div class=" text-dark">
+          <ul class="list-group mb-2" *ngFor="let question of answers">
+            <li class="list-group-item">
+              <h5>
+                {{ answers.indexOf(question) + 1 }})
+                {{ question["qname"] }}
+              </h5>
+              <div class="row">
+                <div
+                  class="col-6"
+                  [class.font-weight-bold]="question['giverAns'] === 'a'"
+                >
+                  a) {{ question["a"] }}
+                </div>
+                <div
+                  class="col-6"
+                  [class.font-weight-bold]="question['giverAns'] === 'b'"
+                >
+                  b) {{ question["b"] }}
+                </div>
+                <div
+                  class="col-6"
+                  [class.font-weight-bold]="question['giverAns'] === 'c'"
+                >
+                  c) {{ question["c"] }}
+                </div>
+                <div
+                  class="col-6"
+                  [class.font-weight-bold]="question['giverAns'] === 'd'"
+                >
+                  d) {{ question["d"] }}
+                </div>
+              </div>
+              <p
+                class="alert alert-success mt-2 mb-0"
+                *ngIf="question['ans'] === question['giverAns']"
+              >
+                <b>CORRECT : </b> Answer is
+                <b>{{ question["ans"] | uppercase }}</b>
+              </p>
+              <p
+                class="alert alert-danger mt-2 mb-0"
+                *ngIf="
+                  question['giverAns'] !== '' &&
+                  question['ans'] !== question['giverAns']
+                "
+              >
+                <b>WRONG : </b> Correct Answer is
+                <b>{{ question["ans"] | uppercase }}</b>
+              </p>
+              <p
+                class="alert alert-dark mt-2 mb-0"
+                *ngIf="question['giverAns'] === ''"
+              >
+                <b>NOT ATTEMPTED : </b> Correct Answer is
+                <b>{{ question["ans"] | uppercase }}</b>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

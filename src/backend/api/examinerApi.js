@@ -18,6 +18,36 @@ const Examiner = require("../model/examiner");
 const Student = require("../model/student");
 const verifyToken = require("../middleware/verifyToken");
 
+// TODO:PHOTO UPLOAD ================================================================
+// Multer import
+const multer = require("multer");
+
+// import cloudinary
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+// configuring cloudinary
+cloudinary.config({
+  cloud_name: "wasimkhan",
+  api_key: "928417319282593",
+  api_secret: "eqPsb8yk8e4CoB9fcZnKK6Ba1Pg"
+});
+
+// inform multer-storage-cloudinary to save photo to cloudinary
+const storage = cloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: "Online Exam",
+  allowedFormats: ["jpg", "png"],
+  filename: function(req, file, cb) {
+    cb(undefined, file.fieldname + "_" + Date.now());
+  }
+});
+
+// Multer configure
+let upload = multer({ storage: storage });
+
+// ALL HTTP REQUESTS
+
 // TODO: Registration
 examinerApp.post("/register", (req, res) => {
   Examiner.findOne({ username: req.body.username.toLowerCase() })
@@ -38,13 +68,14 @@ examinerApp.post("/register", (req, res) => {
                     username: req.body.username.toLowerCase(),
                     mobile: req.body.mobile,
                     instituteName: req.body.instituteName,
-                    password: req.body.password
+                    password: req.body.password,
+                    email: req.body.email
                   });
                   examinerDoc
                     .save()
                     .then(() => {
                       res.json({
-                        message: `${req.body.name} is registered succesfully`
+                        message: `registered succesfully`
                       });
                     })
                     .catch(err => {
@@ -56,7 +87,7 @@ examinerApp.post("/register", (req, res) => {
                 });
             } else {
               res.json({
-                message: `${req.body.username} is already registered`
+                message: `already registered`
               });
             }
           })
@@ -80,7 +111,7 @@ examinerApp.post("/login", (req, res) => {
     .then(studentObj => {
       if (studentObj === null) {
         res.json({
-          message: `Invalid Username ${req.body.username}`
+          message: `Invalid Username`
         });
       } else {
         bcrypt
@@ -115,6 +146,68 @@ examinerApp.post("/login", (req, res) => {
     })
     .catch(err => {
       console.log("err in finding user during Login", err);
+    });
+});
+
+// TODO: Get Examiner Details
+examinerApp.get("/getExaminerDetails/:examinerId", (req, res) => {
+  Examiner.findOne({
+    username: req.params.examinerId
+  })
+    .then(examinerObj => {
+      res.json({
+        message: examinerObj
+      });
+    })
+    .catch(err => {
+      console.log(`error in getting examiner details ${err}`);
+    });
+});
+
+// TODO: Update Student Details
+examinerApp.put("/updateExaminerDetails/:examinerId", (req, res) => {
+  Examiner.updateOne(
+    {
+      username: req.params.examinerId
+    },
+    {
+      $set: {
+        instituteName: req.body.instituteName,
+        name: req.body.name,
+        email: req.body.email,
+        mobile: req.body.mobile
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: "Examiner Profile Updated Successfully"
+      });
+    })
+    .catch(err => {
+      console.log(`error in getting Examiner details ${err}`);
+    });
+});
+
+// TODO: Update Student Profile Photo
+examinerApp.put("/updateExaminerPhoto", upload.single("photo"), (req, res) => {
+  req.body = JSON.parse(req.body.examinerObj);
+
+  Examiner.updateOne(
+    { username: req.body.username },
+    {
+      $set: {
+        profileUrl: req.file.secure_url
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: "Profile Photo Updated Successfully"
+      });
+    })
+    .catch(err => {
+      console.log(`error in Updating profile Picture ${err}`);
     });
 });
 
@@ -160,6 +253,117 @@ examinerApp.put("/addbatch/:username", (req, res) => {
     })
     .catch(err => {
       console.log(`error in finding Batch Id ${err}`);
+    });
+});
+
+// TODO: Update the Batch
+examinerApp.put("/updateBatch", (req, res) => {
+  Examiner.updateOne(
+    {
+      studentList: {
+        $elemMatch: {
+          batchId: req.body.batchId
+        }
+      }
+    },
+    {
+      $set: {
+        "studentList.$.batchName": req.body.batchName
+      }
+    }
+  )
+    .then(() => {
+      res.json({
+        message: "Batch Updated Successfully"
+      });
+    })
+    .catch(err => {
+      console.log("error in updating studentList array of Examiner", err);
+    });
+});
+
+// TODO: Delete A Batch FIXME: Pending
+examinerApp.put("/deleteBatch", (req, res) => {
+  // removing batch from examinerList in Examiner Collection
+  Examiner.updateOne(
+    {
+      studentList: {
+        $elemMatch: {
+          batchId: req.body.batchId
+        }
+      }
+    },
+    { $pull: { studentList: { batchId: req.body.batchId } } }
+  )
+    .then(() => {
+      // removing batch instance from examList in Examiner Collection FIXME: Failed
+      Examiner.updateMany(
+        {
+          studentList: {
+            $elemMatch: {
+              batchId: req.body.batchId
+            }
+          }
+        },
+
+        { $pull: { "examList.$.batch": req.body.batchId } }
+      )
+        .then(() => {
+          // removing batch instance from performance in Examiner Collection FIXME: Failed
+          Examiner.updateMany(
+            {
+              studentList: {
+                $elemMatch: {
+                  batchId: req.body.batchId
+                }
+              }
+            },
+
+            { $pull: { "performance.$.batch": req.body.batchId } }
+          )
+            .then(() => {
+              // removing batch instance from examinerList in students Collection FIXME: Failed
+              Student.updateMany(
+                {},
+                { $pull: { "examinerList.$.batch": req.body.batchId } }
+              )
+                .then(() => {
+                  // removing batch from performance in students Collection FIXME: Failed
+                  Student.updateMany(
+                    {},
+                    { $pull: { performance: { batchId: req.body.batchId } } }
+                  )
+                    .then(() => {
+                      res.json({
+                        message: "Batch Removed Successfully"
+                      });
+                    })
+                    .catch(err => {
+                      console.log(
+                        `error in removing batch from performance in students Collection ${err}`
+                      );
+                    });
+                })
+                .catch(err => {
+                  console.log(
+                    `error in removing batch instance from examinerList in students Collection ${err}`
+                  );
+                });
+            })
+            .catch(err => {
+              console.log(
+                `error in removing batch instance from performance in Examiner Collection ${err}`
+              );
+            });
+        })
+        .catch(err => {
+          console.log(
+            `error in removing batch instance from examList in Examiner Collection ${err}`
+          );
+        });
+    })
+    .catch(err => {
+      console.log(`error in removing batch from Examiner StudentList ${err}`);
     });
 });
 
@@ -445,6 +649,7 @@ examinerApp.put("/addExam/:username", (req, res) => {
               examList: {
                 examname: req.body.examname.toLowerCase(),
                 duration: req.body.duration,
+                totalQuestion: req.body.totalQuestion,
                 batch: req.body.batch,
                 result: [],
                 questions: []
@@ -517,14 +722,15 @@ examinerApp.put("/updateExam/:username", (req, res) => {
     {
       $set: {
         "examList.$.duration": req.body.duration,
-        "examList.$.batch": req.body.batch
+        "examList.$.batch": req.body.batch,
+        "examList.$.totalQuestion": req.body.totalQuestion
       }
     }
   )
 
     .then(() => {
       res.json({
-        message: "New Exam Updated Successfully"
+        message: "Exam Updated Successfully"
       });
     })
     .catch(err => {
@@ -592,9 +798,8 @@ examinerApp.put("/addQuestion/:examinerId/:examname", (req, res) => {
     });
 });
 
-// TODO: Update the Question Paper FIXME: Pending
+// TODO: Update the Question Paper
 examinerApp.put("/updateQuestion/:username/:examname", (req, res) => {
-  // =============================================================
   Examiner.findOne(
     {
       username: req.params.username
@@ -646,21 +851,6 @@ examinerApp.put("/updateQuestion/:username/:examname", (req, res) => {
         `error in FINDING during result to Examiner Perticular batch exam rasult array ${err}`
       );
     });
-
-  // FIXME: This is not working properly boz of my old mongod version
-  // {
-  // $set: {
-  //   "examList.$[outer].questions.$[inner]": {
-  //     qid: req.body.qid,
-  //     qname: req.body.qname,
-  //     ans: req.body.ans,
-  //     a: req.body.a,
-  //     b: req.body.b,
-  //     c: req.body.c,
-  //     d: req.body.d
-  //   }
-  // }
-  // }
 });
 
 // TODO: Delete Question
@@ -781,35 +971,39 @@ examinerApp.put("/publishExam", (req, res) => {
     });
 });
 
-// TODO: Get the Exam / all questions from Performance
-examinerApp.get("/getPublishQuestions/:examinerId/:examname", (req, res) => {
-  Examiner.findOne({
-    $and: [
-      { username: req.params.examinerId },
-      {
-        performance: {
-          $elemMatch: {
-            examname: req.params.examname
+// TODO: Get the Exam >  all questions/batches from Performance array
+examinerApp.get(
+  "/getPerformanceArrayDetails/:examinerId/:examname",
+  (req, res) => {
+    Examiner.findOne({
+      $and: [
+        { username: req.params.examinerId },
+        {
+          performance: {
+            $elemMatch: {
+              examname: req.params.examname
+            }
           }
         }
-      }
-    ]
-  })
-
-    .then(examinerObj => {
-      let examList = examinerObj["performance"];
-      let exam = examList.filter(examObj => {
-        return examObj["examname"] == req.params.examname;
-      });
-
-      res.json({
-        message: exam[0].questions
-      });
+      ]
     })
-    .catch(err => {
-      console.log("error in finding exam details ", err);
-    });
-});
+
+      .then(examinerObj => {
+        let examList = examinerObj["performance"];
+        let exam = examList.filter(examObj => {
+          return examObj["examname"] == req.params.examname;
+        });
+
+        res.json({
+          questions: exam[0].questions,
+          batches: exam[0].batch
+        });
+      })
+      .catch(err => {
+        console.log("error in finding exam details ", err);
+      });
+  }
+);
 
 // TODO: Remove exam from performance array and perticular batches
 examinerApp.put("/removePerformanceExam", (req, res) => {
@@ -862,6 +1056,37 @@ examinerApp.put("/removePerformanceExam", (req, res) => {
     })
     .catch(err => {
       console.log(`error in removing exam from performance ${err}`);
+    });
+});
+
+// TODO: Get Batch wise Result
+examinerApp.get("/getBatchResult/:batchId/:examname", (req, res) => {
+  Examiner.findOne({
+    studentList: {
+      $elemMatch: {
+        batchId: req.params.batchId
+      }
+    }
+  })
+    .then(examinerObj => {
+      let batch = examinerObj["studentList"].filter(batchObj => {
+        return batchObj["batchId"] == req.params.batchId;
+      });
+
+      let examArr = batch[0]["exam"];
+      let exam = examArr.filter(examObj => {
+        return examObj["examname"] == req.params.examname;
+      });
+      let resultArr = exam[0]["result"];
+      res.json({
+        message: {
+          batchId: req.params.batchId,
+          allResult: resultArr
+        }
+      });
+    })
+    .catch(err => {
+      console.log(`error in finding batch wise result ${err}`);
     });
 });
 // export examinerApp

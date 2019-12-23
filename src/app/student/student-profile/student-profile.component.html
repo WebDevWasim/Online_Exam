@@ -1,0 +1,270 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mt-5">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+          <div class="px-4 pt-0 pb-4 bg-dark">
+            <div class="media align-items-end profile-header">
+              <div class="profile mr-3">
+                <img
+                  [src]="studentObj.profileUrl"
+                  [alt]="studentObj.username"
+                  width="130"
+                  class="rounded mb-2 img-thumbnail"
+                />
+                <!-- Input Field -->
+                <input
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  #photo
+                  (change)="profilephoto($event)"
+                  accept="image/*"
+                  ngModel
+                  class="d-none"
+                />
+                <!-- Update Button -->
+                <button
+                  class="btn btn-primary btn-sm btn-block"
+                  (click)="photo.click()"
+                  [disabled]="loadin"
+                >
+                  Update Photo
+                  <span
+                    [ngClass]="{
+                      'spinner-border spinner-border-sm text-warning': loadin
+                    }"
+                  ></span>
+                </button>
+              </div>
+              <div class="media-body mb-5 text-white">
+                <h4 class="mt-0 mb-0">{{ studentObj.name | uppercase }}</h4>
+                <p class="lead mb-4">
+                  <i class="fas fa-at"></i>
+                  {{ studentObj.username }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-light p-4 d-flex justify-content-end">
+            <ul class="list-inline mb-0">
+              <li class="list-item">
+                <h5 class="font-weight-bold mb-1 d-block">
+                  <i class="fa fa-university" aria-hidden="true"></i>
+                  {{ studentObj.instituteName }}
+                </h5>
+              </li>
+              <li class="list-item">
+                <h5 class="font-weight-bold mb-1 d-block">
+                  <i class="fa fa-mobile" aria-hidden="true"></i>
+                  {{ studentObj.mobile }}
+                </h5>
+              </li>
+              <li class="list-item">
+                <h5 class="font-weight-bold mb-2 d-block">
+                  <i class="fas fa-envelope"></i>
+                  {{ studentObj.email }}
+                </h5>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mt-5 mb-5">
+        <div class="card card-signin">
+          <div class="card-body">
+            <div
+              class="alert alert-success"
+              role="alert"
+              *ngIf="successMessage"
+            >
+              <strong>{{ message }}</strong>
+            </div>
+            <form
+              class="form-signin"
+              #signupForm="ngForm"
+              (ngSubmit)="updateStudent(signupForm.value)"
+            >
+              <!--  NAME  type="text"  -->
+              <div class="form-label-group">
+                <input
+                  class="form-control"
+                  [class.is-invalid]="
+                    name.invalid && (name.touched || name.dirty)
+                  "
+                  [class.is-valid]="name.valid && (name.touched || name.dirty)"
+                  type="text"
+                  id="fn"
+                  name="name"
+                  #name="ngModel"
+                  [ngModel]="studentObj?.name"
+                  required
+                  placeholder="Name"
+                />
+                <label for="fn">Name</label>
+                <!-- FIXME:  Name Validation -->
+                <div *ngIf="name.invalid && (name.touched || name.dirty)">
+                  <small class="text-danger ml-4">Name is Required</small>
+                </div>
+              </div>
+              <!--  Username  type="text"  -->
+              <div class="form-label-group">
+                <input
+                  class="form-control"
+                  [class.is-invalid]="
+                    username.invalid && (username.touched || username.dirty)
+                  "
+                  [class.is-valid]="
+                    username.valid && (username.touched || username.dirty)
+                  "
+                  type="text"
+                  id="username"
+                  name="username"
+                  #username="ngModel"
+                  [ngModel]="studentObj?.username"
+                  disabled
+                  placeholder="Username"
+                />
+                <label for="username">Username</label>
+                <!-- FIXME:  Username Validation -->
+                <div
+                  *ngIf="
+                    username.invalid && (username.touched || username.dirty)
+                  "
+                >
+                  <small class="text-danger ml-4">Username is Required</small>
+                </div>
+              </div>
+
+              <!-- MOBILE NO type="number"-->
+              <div class="form-label-group">
+                <input
+                  class="form-control"
+                  type="number"
+                  pattern="[6789][0-9]{9}"
+                  id="ph"
+                  name="mobile"
+                  #mobile="ngModel"
+                  autocomplete="off"
+                  [class.is-invalid]="
+                    mobile.invalid && (mobile.dirty || mobile.touched)
+                  "
+                  [class.is-valid]="
+                    mobile.valid && (mobile.dirty || mobile.touched)
+                  "
+                  [ngModel]="studentObj?.mobile"
+                  required
+                  placeholder="Mobile No"
+                />
+                <label for="ph">Mobile No</label>
+                <!-- FIXME: Mobile No, Pattern Validation -->
+                <div *ngIf="mobile.invalid && (mobile.dirty || mobile.touched)">
+                  <small
+                    class="text-danger ml-4"
+                    *ngIf="mobile.errors?.required"
+                  >
+                    Valid Mobile Number is Required</small
+                  >
+                  <small
+                    class="text-danger ml-4"
+                    *ngIf="mobile.errors?.pattern"
+                  >
+                    Please Give Valid Mobile No</small
+                  >
+                </div>
+              </div>
+              <!-- TODO: EMAIL-->
+              <div class="form-label-group">
+                <input
+                  class="form-control"
+                  type="email"
+                  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  id="email"
+                  name="email"
+                  #email="ngModel"
+                  [class.is-invalid]="
+                    email.invalid && (email.dirty || email.touched)
+                  "
+                  [class.is-valid]="
+                    email.valid && (email.dirty || email.touched)
+                  "
+                  [ngModel]="studentObj?.email"
+                  required
+                  placeholder="Email"
+                />
+                <label for="email">email</label>
+                <!-- FIXME: email Validation -->
+                <div
+                  class="text-danger ml-4"
+                  *ngIf="email.invalid && (email.dirty || email.touched)"
+                >
+                  <small *ngIf="email.errors?.required">
+                    email is Required
+                  </small>
+
+                  <small *ngIf="email.errors?.pattern">
+                    Please enter valid email ID
+                  </small>
+                </div>
+              </div>
+              <!-- institute Name  type="text"  -->
+              <div class="form-label-group">
+                <input
+                  class="form-control"
+                  [class.is-invalid]="
+                    instituteName.invalid &&
+                    (instituteName.touched || instituteName.dirty)
+                  "
+                  [class.is-valid]="
+                    instituteName.valid &&
+                    (instituteName.touched || instituteName.dirty)
+                  "
+                  type="text"
+                  id="instituteName"
+                  name="instituteName"
+                  #instituteName="ngModel"
+                  [ngModel]="studentObj?.instituteName"
+                  required
+                  placeholder="Institute Name"
+                />
+                <label for="instituteName">Institute Name</label>
+                <!-- FIXME:  institute Name Validation -->
+                <div
+                  *ngIf="
+                    instituteName.invalid &&
+                    (instituteName.touched || instituteName.dirty)
+                  "
+                >
+                  <small class="text-danger ml-4"
+                    >Institute Name is Required</small
+                  >
+                </div>
+              </div>
+
+              <button
+                class="btn btn-lg btn-block text-uppercase"
+                [disabled]="signupForm.invalid"
+                type="submit"
+                [ngClass]="{
+                  'btn-success': signupForm.valid,
+                  'btn-primary': signupForm.invalid
+                }"
+                [disabled]="loading"
+              >
+                Update
+                <span
+                  [ngClass]="{
+                    'spinner-border spinner-border-sm text-warning': loading
+                  }"
+                ></span>
+              </button>
+              <!-- Alert Message -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

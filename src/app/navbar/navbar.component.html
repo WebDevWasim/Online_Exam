@@ -1,41 +1,48 @@
 <nav
-  class="navbar navbar-expand-lg navbar-dark bg-dark"
+  class="navbar navbar-expand-lg navbar-dark"
+  style="background-color: #6c5ce7;"
   *ngIf="!login.isLoggedIn()"
 >
-  <a class="navbar-brand" routerLink="#" routerLinkActive="active"
-    >ONLINE EXAM</a
-  >
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div
-    class="collapse navbar-collapse justify-content-end"
-    id="navbarNavAltMarkup"
-  >
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="home" routerLinkActive="active"
-        >Home</a
-      >
-      <a
-        class="nav-item nav-link"
-        routerLink="aboutUs"
-        routerLinkActive="active"
-        >About Us</a
-      >
-      <a
-        class="nav-item nav-link"
-        routerLink="contactUs"
-        routerLinkActive="active"
-        >Contact Us</a
-      >
+  <div class="container">
+    <a class="navbar-brand" routerLink="#" routerLinkActive="active"
+      ><img
+        src="https://res.cloudinary.com/wasimkhan/image/upload/v1576764762/Online%20Exam/562c7737273eb_thumb900_z33rvl.jpg"
+        height="35"
+        alt="logo"
+    /></a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarResponsive"
+      aria-controls="navbarResponsive"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse justify-content-end"
+      id="navbarResponsive"
+    >
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="home" routerLinkActive="active"
+          >HOME</a
+        >
+        <a
+          class="nav-item nav-link"
+          routerLink="aboutUs"
+          routerLinkActive="active"
+          >ABOUT</a
+        >
+        <a
+          class="nav-item nav-link"
+          routerLink="contactUs"
+          routerLinkActive="active"
+          >CONTACT</a
+        >
+      </div>
     </div>
   </div>
 </nav>
