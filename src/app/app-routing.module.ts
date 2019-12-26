@@ -1,4 +1,3 @@
-import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ContactusComponent } from "./contactus/contactus.component";
 import { HomeComponent } from "./home/home.component";
 import { NgModule } from "@angular/core";
@@ -10,7 +9,6 @@ const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "aboutUs", component: AboutusComponent },
   { path: "contactUs", component: ContactusComponent }
-  // { path: "**", component: PageNotFoundComponent }
 ];
 
 @NgModule({
