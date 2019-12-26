@@ -2,7 +2,7 @@
   background: #6c5ce7;
   margin-top: 10%;
   margin-bottom: 5%;
-  width: 70%;
+  max-width: 80%;
 }
 .contact-form .form-control {
   border-radius: 1rem;
