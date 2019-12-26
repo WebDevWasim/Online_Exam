@@ -3,9 +3,8 @@
 }
 
 .container-fluid {
-  background: #c5cae9;
-  background: linear-gradient(to right, #b3e5fc, #81d4fa);
-  background: -webkit-linear-gradient(to right, #b3e5fc, #81d4fa);
+  background: linear-gradient(to bottom, #8c9eff, #b39ddb);
+  background: -webkit-linear-gradient(to bottom, #8c9eff, #b39ddb);
   min-height: 100vh;
   font-family: "Varela Round", sans-serif;
   --input-padding-x: 1.5rem;
