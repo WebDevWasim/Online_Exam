@@ -24,8 +24,6 @@ export class AddExaminerComponent implements OnInit {
         alert(res["message"]);
       } else {
         this.examinerObj = res["message"];
-        console.log(this.examinerObj);
-
         this.show = true;
       }
     });
