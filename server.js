@@ -20,5 +20,7 @@ app.use("/student", studentApi);
 app.use(morgan("dev"));
 
 // Assign port no
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server is running on port no ${PORT}...`));
+const port = 3000;
+app.listen(process.env.PORT || port, () =>
+  console.log(`Server is running on port no ${port}...`)
+);

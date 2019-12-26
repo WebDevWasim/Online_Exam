@@ -1,51 +1,56 @@
 <div class="container row">
-  <div class="col-md-6 mt-5">
-    <label for="examiner" class="mt-2">Search Examiner</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Enter Valid Examiner ID"
-      id="examiner"
-      (keyup.enter)="searchExaminer(ref.value)"
-      ngModel
-      #ref
-      required
-    />
-    <button
-      class="btn btn-success w-100 mt-3"
-      (click)="searchExaminer(ref.value)"
-    >
-      SEARCH
-    </button>
+  <div class="col-md-6 p-4 pt-0 text-center rounded">
+    <div class="card p-4">
+      <label class="h5 mb-3" for="examiner">Search Examiner</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter Valid Examiner ID"
+        id="examiner"
+        (keyup.enter)="searchExaminer(ref.value)"
+        ngModel
+        #ref
+        required
+      />
+      <button
+        class="btn btn-success form-control mt-3 "
+        (click)="searchExaminer(ref.value)"
+      >
+        SEARCH
+      </button>
+    </div>
   </div>
 
-  <div class="col-md-6 mt-5" *ngIf="show">
-    <div class="card text-center">
-      <div class="card-header">
-        {{ examinerObj.username }}
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">{{ examinerObj.name }}</h5>
-        <p class="card-text">
-          {{ examinerObj.instituteName }}
-        </p>
-        <input
-          type="text"
-          ngModel
-          class="form-control w-75 d-block mx-auto"
-          #batchId="ngModel"
-          name="batchId"
-          placeholder="Batch ID"
-          required
-        />
+  <div class="col-md-6 p-4 pt-0 rounded" *ngIf="show">
+    <div class="card">
+      <img
+        [src]="examinerObj['profileUrl']"
+        [alt]="examinerObj.username"
+        class="img-fluid"
+      />
+      <h3 class="mt-3">{{ examinerObj.name | uppercase }}</h3>
+      <p class="text-muted">
+        <i class="fas fa-at"></i>{{ examinerObj.username | uppercase }}
+      </p>
+      <p><i class="fas fa-university"></i> {{ examinerObj.instituteName }}</p>
+      <input
+        type="text"
+        ngModel
+        class="form-control w-75 d-block mx-auto"
+        #batchId="ngModel"
+        name="batchId"
+        placeholder="Batch ID"
+        required
+      />
+      <p>
         <button
           [disabled]="batchId.invalid"
-          class="btn btn-primary w-50 mt-3 btn-sm"
+          class="btn btn-primary mt-3 form-control w-75 d-block mx-auto"
           (click)="sendExaminerRequest(batchId.value)"
         >
           ADD ME SIR
         </button>
-      </div>
+      </p>
     </div>
   </div>
 </div>

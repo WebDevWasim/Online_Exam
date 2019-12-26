@@ -1,0 +1,13 @@
+.container-fluid {
+  background: linear-gradient(to bottom, #8c9eff, #b39ddb);
+  background: -webkit-linear-gradient(to bottom, #8c9eff, #b39ddb);
+  min-height: 90vh;
+  font-family: "Varela Round", sans-serif;
+}
+button {
+  border: 2px solid white;
+}
+
+.navbar {
+  min-height: 10vh;
+}

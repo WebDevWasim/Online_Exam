@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container pb-0">
   <h3 class="text-center text-white bg-danger pb-1 pt-2 mb-3">
     {{ examname | uppercase }}
   </h3>
 
   <button
     type="button"
-    class="btn btn-success d-block"
+    class="btn btn-success d-block mb-3"
     data-toggle="modal"
     data-target="#exampleModal"
   >
@@ -15,10 +15,12 @@
   <div *ngIf="questions.length; then thenBlock; else elseBlock"></div>
 
   <ng-template #thenBlock>
-    <ul class="list-group mt-3 mb-3" *ngFor="let question of questions">
-      <li class="list-group-item">
-        <h5>{{ questions.indexOf(question) + 1 }}) {{ question["qname"] }}</h5>
-        <div class="row">
+    <ul class="list-group " *ngFor="let question of questions">
+      <li class="list-group-item p-0 mb-3">
+        <h5 class="pb-0 px-3 pt-3">
+          {{ questions.indexOf(question) + 1 }}) {{ question["qname"] }}
+        </h5>
+        <div class="row px-3 pt-0">
           <div
             class="col-6"
             [ngClass]="{
@@ -60,23 +62,23 @@
             d) {{ question["d"] }}
           </div>
         </div>
-        <div class="row mt-2">
-          <div class="col-sm-2 mb-2">
+        <div class="row mt-2 bg-light rounded-bottom m-0 p-0 text-center">
+          <div class="col mb-2">
             <button
-              class="btn btn-primary form-control btn-sm"
+              class="btn btn-primary mt-2 btn-sm icon"
               data-toggle="modal"
               (click)="editQuestion(question.qid)"
               data-target="#example"
             >
-              Edit
+              <i class="fas fa-edit"></i>
             </button>
           </div>
-          <div class="col-sm-2 offset-sm-8 mb-2">
+          <div class="col mb-2">
             <button
-              class="btn btn-danger form-control btn-sm"
+              class="btn btn-danger mt-2 btn-sm icon"
               (click)="deleteQuestion(question.qid)"
             >
-              Delete
+              <i class="fas fa-trash-alt"></i>
             </button>
           </div>
         </div>
@@ -100,7 +102,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-login">
-    <div class="modal-content">
+    <div class="modal-content bg-light">
       <div class="modal-body">
         <button
           type="button"
@@ -300,7 +302,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-login">
-    <div class="modal-content">
+    <div class="modal-content bg-light">
       <div class="modal-body">
         <button
           type="button"

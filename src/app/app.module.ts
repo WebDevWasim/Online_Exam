@@ -11,6 +11,7 @@ import { HomeComponent } from "./home/home.component";
 import { AboutusComponent } from "./aboutus/aboutus.component";
 import { ContactusComponent } from "./contactus/contactus.component";
 import { NavbarComponent } from "./navbar/navbar.component";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
     HomeComponent,
     AboutusComponent,
     ContactusComponent,
-    NavbarComponent
+    NavbarComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

@@ -1,16 +1,18 @@
-<h3 class=" text-center text-dark">{{ batchId | uppercase }}</h3>
+<h3 class="text-center text-white bg-primary p-2">{{ batchId | uppercase }}</h3>
 
-<div class="row card-group text-center mb-3" *ngIf="allExams.length">
+<div class="row card-group text-center mt-4" *ngIf="allExams.length">
   <div class="col-md-4" *ngFor="let exam of allExams">
-    <div class="card mt-3">
-      <div class="card-body">
-        <h4>
-          {{ exam.examname | uppercase }}
-        </h4>
+    <div class="card rounded mb-3">
+      <h4 class="card-header p-2">
+        {{ exam.examname | uppercase }}
+      </h4>
+      <div class="card-body p-1 pt-2">
         <p class="m-0 p-0 mt-1">Duration : {{ exam["duration"] }} min</p>
         <p class="m-0 p-0 mb-2">Marks : {{ exam["questions"]?.length }}</p>
+      </div>
+      <div class="card-footer">
         <button
-          class="btn btn-success d-block text-light w-75 mx-auto btn-sm m-1 mb-2"
+          class="btn btn-success d-block text-light w-50 mx-auto btn-sm"
           data-toggle="modal"
           data-target="#myModal"
           (click)="startExam(exam.examname)"

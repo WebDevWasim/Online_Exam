@@ -1,3 +1,4 @@
+import { PageNotFoundComponent } from "./../page-not-found/page-not-found.component";
 import { StudentProfileComponent } from "./student-profile/student-profile.component";
 import { BeginExamComponent } from "./begin-exam/begin-exam.component";
 import { EnterBatchComponent } from "./enter-batch/enter-batch.component";
@@ -28,6 +29,7 @@ const routes: Routes = [
         path: "exam",
         component: StudentExamComponent,
         children: [
+          { path: "", redirectTo: "search-examiner", pathMatch: "full" },
           {
             path: "search-examiner",
             component: AddExaminerComponent
@@ -56,6 +58,7 @@ const routes: Routes = [
       }
     ]
   }
+  // { path: "**", component: PageNotFoundComponent }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

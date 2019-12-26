@@ -35,6 +35,7 @@
   top: -5px;
   right: -5px;
 }
-.btn {
-  line-height: normal;
+
+.icon :hover {
+  transform: scale(1.2);
 }

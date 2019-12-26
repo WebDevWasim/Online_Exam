@@ -14,8 +14,8 @@ export class StudentListComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  public allBatch = [];
-  public currentBatch = {};
+  public allBatch: Array<any> = [];
+  public currentBatch: any = {};
   fetchBatch() {
     let examiner = localStorage.getItem("username");
     this.http.get(`examiner/fetchbatch/${examiner}`).subscribe(res => {

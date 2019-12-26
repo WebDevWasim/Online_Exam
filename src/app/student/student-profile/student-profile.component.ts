@@ -8,7 +8,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class StudentProfileComponent implements OnInit {
   constructor(private http: HttpClient) {}
-  public studentObj: object = {};
+  public studentObj: any = {};
   public message;
   public loading: boolean = false;
   public loadin: boolean = false;

@@ -1,6 +1,7 @@
 import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+declare var jQuery: any;
 
 @Component({
   selector: "app-exam-list",
@@ -13,6 +14,7 @@ export class ExamListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+  @ViewChild("myModal", { static: false }) myModal: ElementRef<HTMLElement>;
   public allBatch = [];
 
   public allExam = [];
@@ -112,7 +114,7 @@ export class ExamListComponent implements OnInit {
 
     this.http.put(`examiner/publishExam`, student).subscribe(res => {
       if (res["message"] == "Exam Published... Go to Performance") {
-        alert(res["message"]);
+        jQuery(this.myModal.nativeElement).modal("show");
         this.fetchExam();
       }
     });

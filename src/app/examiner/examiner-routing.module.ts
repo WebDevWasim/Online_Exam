@@ -1,3 +1,4 @@
+import { PageNotFoundComponent } from "./../page-not-found/page-not-found.component";
 import { ExaminerProfileComponent } from "./examiner-profile/examiner-profile.component";
 import { ResultQuestionComponent } from "./result-question/result-question.component";
 import { ResultMarkComponent } from "./result-mark/result-mark.component";
@@ -83,6 +84,7 @@ const routes: Routes = [
       }
     ]
   }
+  // { path: "**", component: PageNotFoundComponent }
 ];
 
 @NgModule({

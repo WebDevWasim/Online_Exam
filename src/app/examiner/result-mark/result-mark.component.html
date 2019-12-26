@@ -5,7 +5,7 @@
 >
   <div class="card">
     <button
-      class="btn btn-dark btn-lg form-control"
+      class="btn btn-success border-0 btn-lg form-control"
       data-toggle="collapse"
       attr.data-target="#{{ result.batchId }}"
     >
@@ -19,10 +19,10 @@
     >
       <div class="card-body">
         <table
-          class="table table-striped table-bordered text-center mt-3"
+          class="table table-striped table-hover table-responsive-lg table-bordered mt-3 pb-0 mb-0 text-center"
           *ngIf="result.allResult?.length"
         >
-          <thead>
+          <thead class="thead-dark">
             <th>Student ID</th>
             <th>Total Questions</th>
             <th>Question Attempt</th>
@@ -61,9 +61,6 @@
 </div>
 
 <!-- ================= MODAL ====================== -->
-<!-- Button trigger modal -->
-
-<!-- Modal -->
 <div
   class="modal fade"
   id="exampleModalLong"

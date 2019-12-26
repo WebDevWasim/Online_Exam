@@ -185,7 +185,7 @@
               id="fn1"
               name="batchName"
               #batchname="ngModel"
-              [ngModel]="currentBatch.batchName"
+              [ngModel]="currentBatch?.batchName"
               required
             />
 
@@ -213,7 +213,7 @@
               id="fn"
               name="batchId"
               #batchId="ngModel"
-              [ngModel]="currentBatch.batchId"
+              [ngModel]="currentBatch?.batchId"
               disabled
               required
             />
@@ -229,7 +229,7 @@
           class="btn btn-success form-control"
           data-dismiss="modal"
           [disabled]="myForm1.invalid"
-          (click)="updateBatch(myForm1.value, currentBatch.batchId)"
+          (click)="updateBatch(myForm1.value, currentBatch?.batchId)"
         >
           Update
         </button>

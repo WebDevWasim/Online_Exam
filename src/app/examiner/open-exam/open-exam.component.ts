@@ -10,7 +10,7 @@ import { ActivatedRoute } from "@angular/router";
 export class OpenExamComponent implements OnInit {
   public examname;
   public questions = [];
-  public currentQuestion = {};
+  public currentQuestion: any = {};
   constructor(private activeRoute: ActivatedRoute, private http: HttpClient) {}
 
   loadQuestionsList() {
@@ -59,8 +59,6 @@ export class OpenExamComponent implements OnInit {
     let examiner = localStorage.getItem("username");
 
     questionObj.qid = this.currentQuestion["qid"];
-
-    console.log(questionObj);
 
     this.http
       .put(`examiner/updateQuestion/${examiner}/${this.examname}`, questionObj)

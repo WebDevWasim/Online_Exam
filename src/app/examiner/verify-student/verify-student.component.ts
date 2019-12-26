@@ -15,10 +15,10 @@ export class VerifyStudentComponent implements OnInit {
   ) {}
 
   // private examiner = this.loggedUser.loggedUserName();
-  private examiner = localStorage.getItem("username");
+  public examiner = localStorage.getItem("username");
   public searchItem: any;
   public searchField: any = "batchId";
-  private studentsData = [];
+  public studentsData = [];
 
   loadRequestList() {
     this.http.get(`examiner/getRequests/${this.examiner}`).subscribe(res => {

@@ -10,7 +10,7 @@ import decode from "jwt-decode";
 export class AddExaminerComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
-  public examinerObj: object = {};
+  public examinerObj: any = {};
   public show: boolean = false;
 
   // Decoding Token
@@ -24,6 +24,8 @@ export class AddExaminerComponent implements OnInit {
         alert(res["message"]);
       } else {
         this.examinerObj = res["message"];
+        console.log(this.examinerObj);
+
         this.show = true;
       }
     });

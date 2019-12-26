@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class BeginExamComponent implements OnInit {
   public batchId;
   public examname;
-  public exam = {};
+  public exam: any = {};
   public startCountdown: string;
   public timer;
 

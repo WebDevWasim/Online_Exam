@@ -14,7 +14,7 @@ export class CheckPerformanceComponent implements OnInit {
     private currenRoute: ActivatedRoute
   ) {}
 
-  public performance = {};
+  public performance: any = {};
   public answers = [];
   public wrongAns = 0;
   public attemptQuestion = 0;
