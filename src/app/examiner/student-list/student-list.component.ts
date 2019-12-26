@@ -67,13 +67,11 @@ export class StudentListComponent implements OnInit {
     let batchObj = {
       batchId: batchId
     };
-    // this.http.put(`examiner/deleteBatch`, batchObj).subscribe(res => {
-    //   if (res["message"] == "Batch Removed Successfully") {
-    //     console.log("success");
-
-    //     this.fetchBatch();
-    //   }
-    // });
+    this.http.put(`examiner/deleteBatch`, batchObj).subscribe(res => {
+      if (res["message"] == "Batch Removed Successfully") {
+        this.fetchBatch();
+      }
+    });
   }
   openBatch(batchId) {
     this.router.navigate(["../open-batch", batchId], {

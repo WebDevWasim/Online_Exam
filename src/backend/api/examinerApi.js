@@ -297,70 +297,70 @@ examinerApp.put("/deleteBatch", (req, res) => {
   )
     .then(() => {
       // removing batch instance from examList in Examiner Collection FIXME: Failed
-      Examiner.updateMany(
-        {
-          studentList: {
-            $elemMatch: {
-              batchId: req.body.batchId
-            }
-          }
-        },
+      // Examiner.updateMany(
+      //   {
+      //     studentList: {
+      //       $elemMatch: {
+      //         batchId: req.body.batchId
+      //       }
+      //     }
+      //   },
 
-        { $pull: { "examList.$.batch": req.body.batchId } }
-      )
-        .then(() => {
-          // removing batch instance from performance in Examiner Collection FIXME: Failed
-          Examiner.updateMany(
-            {
-              studentList: {
-                $elemMatch: {
-                  batchId: req.body.batchId
-                }
-              }
-            },
+      //   { $pull: { "examList.$.batch": req.body.batchId } }
+      // )
+      //   .then(() => {
+      //     // removing batch instance from performance in Examiner Collection FIXME: Failed
+      //     Examiner.updateMany(
+      //       {
+      //         studentList: {
+      //           $elemMatch: {
+      //             batchId: req.body.batchId
+      //           }
+      //         }
+      //       },
 
-            { $pull: { "performance.$.batch": req.body.batchId } }
-          )
-            .then(() => {
-              // removing batch instance from examinerList in students Collection FIXME: Failed
-              Student.updateMany(
-                {},
-                { $pull: { "examinerList.$.batch": req.body.batchId } }
-              )
-                .then(() => {
-                  // removing batch from performance in students Collection FIXME: Failed
-                  Student.updateMany(
-                    {},
-                    { $pull: { performance: { batchId: req.body.batchId } } }
-                  )
-                    .then(() => {
+      //       { $pull: { "performance.$.batch": req.body.batchId } }
+      //     )
+      //       .then(() => {
+      //         // removing batch instance from examinerList in students Collection FIXME: Failed
+      //         Student.updateMany(
+      //           {},
+      //           { $pull: { "examinerList.$.batch": req.body.batchId } }
+      //         )
+      //           .then(() => {
+      //             // removing batch from performance in students Collection FIXME: Failed
+      //             Student.updateMany(
+      //               {},
+      //               { $pull: { performance: { batchId: req.body.batchId } } }
+      //             )
+      //               .then(() => {
                       res.json({
                         message: "Batch Removed Successfully"
                       });
-                    })
-                    .catch(err => {
-                      console.log(
-                        `error in removing batch from performance in students Collection ${err}`
-                      );
-                    });
-                })
-                .catch(err => {
-                  console.log(
-                    `error in removing batch instance from examinerList in students Collection ${err}`
-                  );
-                });
-            })
-            .catch(err => {
-              console.log(
-                `error in removing batch instance from performance in Examiner Collection ${err}`
-              );
-            });
-        })
-        .catch(err => {
-          console.log(
-            `error in removing batch instance from examList in Examiner Collection ${err}`
-          );
-        });
+        //             })
+        //             .catch(err => {
+        //               console.log(
+        //                 `error in removing batch from performance in students Collection ${err}`
+        //               );
+        //             });
+        //         })
+        //         .catch(err => {
+        //           console.log(
+        //             `error in removing batch instance from examinerList in students Collection ${err}`
+        //           );
+        //         });
+        //     })
+        //     .catch(err => {
+        //       console.log(
+        //         `error in removing batch instance from performance in Examiner Collection ${err}`
+        //       );
+        //     });
+        // })
+        // .catch(err => {
+        //   console.log(
+        //     `error in removing batch instance from examList in Examiner Collection ${err}`
+        //   );
+        // });
     })
     .catch(err => {
       console.log(`error in removing batch from Examiner StudentList ${err}`);
